@@ -1,0 +1,39 @@
+.map-responsive{
+    overflow:hidden;
+    padding-bottom:56.25%;
+    position:relative;
+    height:0;
+}
+.map-responsive iframe{
+    left:0;
+    top:0;
+    height:100%;
+    width:100%;
+    position:absolute;
+}
+/* Contact form */
+.lu-contact-form input[type="text"], 
+.lu-contact-form input[type="email"], 
+.lu-contact-form textarea {
+  background: rgba( 255,255,255,0.9 );
+  border-radius: 0;
+}
+.lu-contact-form input[type="text"], 
+.lu-contact-form input[type="email"] {
+  padding: 10px 12px;
+  height: 46px;
+  font-size: 16px;
+}
+.lu-contact-form textarea {
+	min-height: 168px;
+}
+.lu-contact-form .btn {
+  border-radius: 0;
+  font-family: 'Roboto';
+  padding: 11px 40px 8px 40px;
+  font-size: 18px;
+}
+.buttoncenter{
+	text-align: center;
+	margin-top: 15px;
+}

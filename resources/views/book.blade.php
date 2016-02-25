@@ -5,21 +5,21 @@
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
-                <div class="panel-heading">Home</div>
+                <div class="panel-heading">Book Facilities & Classes</div>
 
                 <div class="panel-body">
-                    ***SLIDESHOW***
-                    <br>
-                    Book, Edit and Cancel Classes and Facilities.
+                    **Select facility or class**
                     <br>
                     <br>
-                    ***LINKS***
+                    **Calendar with Info for Bookings
                     <br>
                     <br>
-                    ***Footer***
+                    **Links**
                     <br>
-                    -Links
-                    -Copyright
+                    -My Account
+                    -Pricing
+                    -My Bookings
+                    <br>
                     <br>
                 </div>
             </div>

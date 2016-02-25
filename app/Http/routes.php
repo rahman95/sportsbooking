@@ -11,9 +11,6 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 /*
 |--------------------------------------------------------------------------
@@ -36,5 +33,17 @@ Route::group(['middleware' => 'web'], function () {
     	return view('welcome');
     });
 
-    Route::get('/home', 'HomeController@index');
+Route::get('/home', 'HomeController@index');
+});
+
+Route::get('/book',function() {
+    return view('book');
+});
+
+Route::get('/info',function() {
+    return view('info');
+});
+
+Route::get('/contact',function() {
+    return view('contact');
 });
