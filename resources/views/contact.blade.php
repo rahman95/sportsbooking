@@ -7,13 +7,33 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Opening Times</div>
                 <div class="panel-body">
-                    Monday-Friday
-                    <br>
-                    11am-11pm
-                    <br>
-                    Saturday & Sunday
-                    <br>
-                    9am-11pm
+                <div class="col-md-4">
+                <div style="overflow-x:auto;">
+                <table>
+                <tr>
+                <th>Days</th>
+                <th>Times</th>
+                </tr>
+                <tr>
+                <td>Monday-Friday</td>
+                <td>11am-11pm</td>
+                </tr>
+                <tr>
+                <td>Saturday</td>
+                <td>10am-12am</td>
+                </tr>
+                <tr>
+                <td>Sunday</td>
+                <td>11am-11pm</td> 
+                </tr>
+                </table>
+                </div>
+                </div>
+                <div class="col-md-8">
+                <h2>Book now to avoid disappointment!</h2>
+                <h3>Call 0113 5568668</h3>
+                <h3>Or <a href="{{ url('/book') }}">Book Online</a></h3>
+                </div>
                 </div>
                 <div class="panel-heading">Map</div>
                 <div class="panel-body">
@@ -60,5 +80,3 @@
     </div>
 </div>
 @endsection
-
-@extends('layouts.footer')

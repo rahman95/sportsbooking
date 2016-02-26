@@ -29,16 +29,20 @@
 Route::group(['middleware' => 'web'], function () {
     Route::auth();
 
+    Route::get('/book',function() {
+    return view('book');
+	});
+
     Route::get('/',function(){
     	return view('welcome');
     });
 
+
+
 Route::get('/home', 'HomeController@index');
 });
 
-Route::get('/book',function() {
-    return view('book');
-});
+
 
 Route::get('/info',function() {
     return view('info');

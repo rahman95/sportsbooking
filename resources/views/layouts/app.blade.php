@@ -87,4 +87,10 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
 </body>
+<footer class="lu-footer">
+      <div class="container text-center">
+        © 2016 RYSportsCentre - <a href="http://www.ryounus.com">RYounus</a>
+      </div>
+    </footer>
 </html>
+
