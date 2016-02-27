@@ -37,17 +37,20 @@ Route::group(['middleware' => 'web'], function () {
     	return view('welcome');
     });
 
+	Route::get('/classes',function() {
+	    return view('classes');
+	});
 
+	Route::get('/facilities',function() {
+	    return view('facilities');
+	});
 
-Route::get('/home', 'HomeController@index');
+	Route::get('/contact',function() {
+	    return view('contact');
+	});
+
+    Route::get('/home', 'HomeController@index');
 });
 
 
 
-Route::get('/info',function() {
-    return view('info');
-});
-
-Route::get('/contact',function() {
-    return view('contact');
-});

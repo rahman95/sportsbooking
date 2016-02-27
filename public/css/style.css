@@ -10,9 +10,69 @@ th, td {
     border-right: 1px solid #ddd;
     border-left: 1px solid #ddd;
 }
-/*Table*/
+/*Testimonials*/
 .imagecenter {
 margin: 0 auto;
+}
+/*Slideshow*/
+.carousel-caption{
+background-color:rgba(0,0,0,0.5);
+left: 0;
+right: 0;
+padding-top: 0;
+}
+
+/*Thumbnails*/
+.thumbnail a{
+text-decoration: none;
+}
+
+.thumbnail:hover{
+background-color: rgba(0,0,0,0.1);
+color: white;
+}
+/* Booking*/
+#imagelist a {
+position: relative;
+display: inline-block;
+}
+#imagelist a p{
+display: none;
+}
+#imagelist a:hover p{
+position: absolute;
+width: 100%;
+height: 100%;
+background: #000;
+opacity: 0.6;
+top: 0;
+left: 0;
+margin: 0;
+display: block;
+}
+#imagelist a p span{
+display: inline-table;
+width: 100%;
+height: 100%;
+text-align: center;
+color:#fff;
+}
+#imagelist a p span span{
+display: table-cell;
+vertical-align: middle;
+font-size: 40px;
+}
+/* Description text */
+.carousel-caption h1 {
+font-family:    Roboto;
+font-size:      20px;
+color:          white !important;
+}
+
+.carousel-caption p {
+font-family:    Roboto;
+font-size:      15px;
+color:          white !important;
 }
 
 tr:nth-child(even) {background-color: #f2f2f2}

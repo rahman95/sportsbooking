@@ -51,7 +51,8 @@
                 <ul class="nav navbar-nav">
                     <li><a href="{{ url('/') }}"><i class="fa fa-btn fa-home"></i>Home</a></li>
                     <li><a href="{{ url('/book') }}"><i class="fa fa-btn fa-table"></i>Book</a></li>
-                    <li><a href="{{ url('/info') }}"><i class="fa fa-btn fa-futbol-o"></i>Our Facilities</a></li>
+                    <li><a href="{{ url('/classes') }}"><i class="fa fa-btn fa-users"></i>Classes</a></li>
+                    <li><a href="{{ url('/facilities') }}"><i class="fa fa-btn fa-futbol-o"></i>Facilities</a></li>
                     <li><a href="{{ url('/contact') }}"><i class="fa fa-btn fa-envelope"></i>Contact Us</a></li>
                 </ul>
 
@@ -88,6 +89,9 @@
     {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
 </body>
 <footer class="lu-footer">
+<div class="container text-center">
+<a href="{{ url('/') }}">Home</a> - <a href="{{ url('/book') }}">Book Now</a> - <a href="{{ url('/facilities') }}">Our Facilities</a> - <a href="{{ url('/classes') }}">Our Classes</a> - <a href="{{ url('/contact') }}">Contact Us</a><br><br>
+</div>
       <div class="container text-center">
         © 2016 RYSportsCentre - <a href="http://www.ryounus.com">RYounus</a>
       </div>

@@ -5,7 +5,6 @@
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
-                <div class="panel-heading">Slideshow</div>
                 <div class="panel-body">
                 <div id="myCarousel" class="carousel slide" data-ride="carousel">
                   <!-- Indicators -->
@@ -54,6 +53,39 @@
                 </div>
                 <div class="panel-heading">Links</div>
                 <div class="panel-body">
+                <div class="row">
+                  <div class="col-sm-6 col-md-4">
+                    <div class="thumbnail">
+                    <a href="{{ url('/book') }}">
+                      <div class="caption">
+                        <h3>Book Now</h3>
+                        <p>Book our facilities now to avoid disappointment, limited spaces.</p>
+                      </div>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="col-sm-6 col-md-4">
+                    <div class="thumbnail">
+                    <a href="{{ url('/facilities') }}">
+                      <div class="caption">
+                        <h3>Our Facilities</h3>
+                        <p>2x Football Pitches, 2x Tennis Courts and a Multi-purpose Sportshall.</p>
+                      </div>
+                      </a>
+                    </div>
+                  </div>
+                  <div class="col-sm-6 col-md-4">
+                    <div class="thumbnail">
+                    <a href="{{ url('/classes') }}">
+                      <div class="caption">
+                        <h3>Our Classes</h3>
+                        <p>Range of classes with experts that will guide you through each step of the way.</p>
+                      </div>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+
 
 
                 </div>
