@@ -14,7 +14,7 @@
                 <img src="img/book/1.png" class="img-responsive">
                 <p class="imgtext">
                 <span>
-                    <span>Book Fitness Class</span>
+                    <span>Book Class</span>
                 </span>
                 </p>
                 </a>

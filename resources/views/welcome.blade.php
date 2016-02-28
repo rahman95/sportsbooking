@@ -27,7 +27,7 @@
                     <div class="item">
                       <img src="img/slides/slide2.png" alt="Chania">
                       <div class="carousel-caption">
-                        <h3>Strenth Training</h3>
+                        <h3>Strength Training</h3>
                         <p>We offer Strength and Powerlifiting Training for Beginners to Advanced Users.</p>
                       </div>
                     </div>

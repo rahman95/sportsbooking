@@ -14,8 +14,18 @@
     <!-- Styles -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
     {{-- <link href="{{ elixir('css/app.css') }}" rel="stylesheet"> --}}
-    <link rel="stylesheet" href="css/style.css" type="text/css"> 
+    <link href="{{{ asset('/css/style.css') }}}" rel="stylesheet">    
+    <link href="{{{ asset('/css/datetimepicker.min.css') }}}" rel="stylesheet">
+    <link href="{{{ asset('/css/iconFont.min.css') }}}" rel="stylesheet">
+    
     <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+
+     <!-- JavaScripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="{{{ asset('/js/moment.js') }}}"></script>
+    <script src="{{{ asset('/js/datetimepicker.js') }}}"></script>
+    {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
 
     <style>
         body {
@@ -82,11 +92,6 @@
     </nav>
 
     @yield('content')
-
-    <!-- JavaScripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-    {{-- <script src="{{ elixir('js/app.js') }}"></script> --}}
 </body>
 <footer class="lu-footer">
 <div class="container text-center">

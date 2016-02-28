@@ -1,15 +1,16 @@
 /*Table*/
-th {
+.contact th {
     background-color: #4CAF50;
     color: white;
 }
-th, td {
+.contact th, td {
     padding: 15px;
     text-align: left;
     border-bottom: 1px solid #ddd;
     border-right: 1px solid #ddd;
     border-left: 1px solid #ddd;
 }
+.contact tr:nth-child(even) {background-color: #f2f2f2}
 /*Testimonials*/
 .imagecenter {
 margin: 0 auto;
@@ -60,6 +61,7 @@ color:#fff;
 #imagelist a p span span{
 display: table-cell;
 vertical-align: middle;
+font-family: Roboto;
 font-size: 40px;
 }
 /* Description text */
@@ -74,8 +76,6 @@ font-family:    Roboto;
 font-size:      15px;
 color:          white !important;
 }
-
-tr:nth-child(even) {background-color: #f2f2f2}
 
 .map-responsive{
     overflow:hidden;

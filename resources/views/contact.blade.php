@@ -8,7 +8,7 @@
                 <div class="panel-heading">Opening Times</div>
                 <div class="panel-body">
                 <div class="col-md-4">
-                <div style="overflow-x:auto;">
+                <div class="contact">
                 <table>
                 <tr>
                 <th>Days</th>
@@ -31,8 +31,7 @@
                 </div>
                 <div class="col-md-8">
                 <h2>Book now to avoid disappointment!</h2>
-                <h3>Call 0113 5568668</h3>
-                <h3>Or <a href="{{ url('/book') }}">Book Online</a></h3>
+                <h3><a href="{{ url('/book') }}">Book now</a></h3>
                 </div>
                 </div>
                 <div class="panel-heading">Map</div>
