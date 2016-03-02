@@ -49,15 +49,13 @@ Route::group(['middleware' => 'web'], function () {
 	    return view('contact');
 	});
 
-	Route::get('/book/class',function() {
-	    return view('bookclass');
-	});
-
-	Route::get('/book/facility',function() {
-	    return view('bookfacility');
-	});
-
     Route::get('/home', 'HomeController@index');
+
+    Route::get('/book/facility', 'FacilityController@index');
+
+    Route::get('/book/class', 'ClassController@index');
+
+    Route::post('/book/class', 'ClassController@store');
 });
 
 
