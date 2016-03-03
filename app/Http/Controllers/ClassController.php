@@ -8,6 +8,8 @@ use Validator;
 use Input;
 use Session;
 use Redirect;
+use Auth;
+use DateTime;
 
 class ClassController extends Controller
 {
@@ -29,7 +31,7 @@ class ClassController extends Controller
     public function index()
     {
         $bookingclasses = \App\Classes::all();
-        return view('bookclass')->with('bookingclasses', $bookingclasses);;
+        return view('bookclass')->with('bookingclasses', $bookingclasses);
     }
 
     public function store()
@@ -37,7 +39,7 @@ class ClassController extends Controller
 
          $rules = array(
             'type' => 'required',
-            'date' => 'required',
+            'date' => 'required|date|after:yesterday',
             'time' => 'required'
         );
 
@@ -54,6 +56,7 @@ class ClassController extends Controller
         $class->classtype   = Input::get('type');
         $class->bookingdate = Input::get('date');
         $class->bookingtime = Input::get('time');
+        $class->bookedby = Auth::user()->name;
 
         $class->save();
 

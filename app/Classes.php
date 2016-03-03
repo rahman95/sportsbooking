@@ -8,5 +8,5 @@ class Classes extends Model
 {
     protected $table = 'class';
 
-    protected $fillable = array('classtype', 'bookingdate', 'bookingtime');
+    protected $fillable = array('classtype', 'bookingdate', 'bookingtime', 'bookedby');
 }

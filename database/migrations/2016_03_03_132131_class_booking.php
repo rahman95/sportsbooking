@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class ClassBookingTable extends Migration
+class ClassBooking extends Migration
 {
     /**
      * Run the migrations.
@@ -12,7 +12,7 @@ class ClassBookingTable extends Migration
      */
     public function up()
     {
-        Schema::create('classes', function (Blueprint $table) {
+        Schema::create('class', function (Blueprint $table) {
             $table->increments('id');
             $table->string('classtype');
             $table->string('bookingdate');
@@ -29,6 +29,6 @@ class ClassBookingTable extends Migration
      */
     public function down()
     {
-        Schema::drop('classes');
+        Schema::drop('class');
     }
 }
