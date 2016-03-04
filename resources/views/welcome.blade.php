@@ -51,7 +51,6 @@
                   </a>
                 </div>
                 </div>
-                <div class="panel-heading">Links</div>
                 <div class="panel-body">
                 <div class="row">
                   <div class="col-sm-6 col-md-4">

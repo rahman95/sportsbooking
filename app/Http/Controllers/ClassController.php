@@ -10,6 +10,7 @@ use Session;
 use Redirect;
 use Auth;
 use DateTime;
+use DB;
 
 class ClassController extends Controller
 {
@@ -30,8 +31,41 @@ class ClassController extends Controller
      */
     public function index()
     {
+
+        $morningfitness = DB::table('class')
+                     ->select('*')
+                     ->where('bookingdate', '=', new DateTime('today'))
+                     ->where('classtype', '=', "fitness")
+                     ->where('bookingtime', '=', "11")
+                     ->count();
+
+        $eveningfitness = DB::table('class')
+                     ->select('*')
+                     ->where('bookingdate', '=', new DateTime('today'))
+                     ->where('classtype', '=', "fitness")
+                     ->where('bookingtime', '=', "20")
+                     ->count();
+
+        $morningstrength = DB::table('class')
+                     ->select('*')
+                     ->where('bookingdate', '=', new DateTime('today'))
+                     ->where('classtype', '=', "strength")
+                     ->where('bookingtime', '=', "11")
+                     ->count();
+
+        $eveningstrength = DB::table('class')
+                     ->select('*')
+                     ->where('bookingdate', '=', new DateTime('today'))
+                     ->where('classtype', '=', "strength")
+                     ->where('bookingtime', '=', "20")
+                     ->count();
+                     
         $bookingclasses = \App\Classes::all();
-        return view('bookclass')->with('bookingclasses', $bookingclasses);
+        return view('bookclass')
+        ->with('morningfitness', $morningfitness)
+        ->with('eveningfitness', $eveningfitness)
+        ->with('morningstrength', $morningstrength)
+        ->with('eveningstrength', $eveningstrength);
     }
 
     public function store()

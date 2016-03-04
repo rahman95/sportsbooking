@@ -7,7 +7,6 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Classes</div>
                 <div class="panel-body">
-                <div class="alert alert-info" role="alert"><i class="fa fa-info-circle"></i> Please be advised that each class is limited to <b>10 members!</b></div>
                 @if (Session::has('message'))
                 <div class="alert alert-success text-center">{{ Session::get('message') }}</div>
                 @endif
@@ -39,7 +38,7 @@
 
                     <div class=".col-md-6">
                       <div class="form-group">
-                        {!! BootForm::select('Preffered Time', 'time')->options([ '' => '', 'morning' => '11:00', 'evening' => '20:00'])->select('') !!}
+                        {!! BootForm::select('Preffered Time', 'time')->options([ '' => '', '11' => '11:00', '20' => '20:00'])->select('') !!}
                               </div>
                     </div>
 
@@ -53,6 +52,7 @@
                     </div>
                     </form>
                 <div class="col-md-6">
+                <br>
                 <h3 class="text-center">Class Schedule</h3>
                 <br>
                 <h4 class="text-center">Morning Classes</h4>
@@ -67,42 +67,49 @@
                 </div>
                 <div class="row">
                 <br>
+                <br>
                 <h3 class="text-center">Today's Availability</h3>
                 <br>
                 <div class="col-md-6">
                 <h4 class="text-center">Fitness Classes</h4>
                 <table>
                     <tr>
-                        <th>Class Type</th>
-                        <th>Class Date</th>
-                        <th>Class Time</th>
-                        <th>Availability?</th>     
+                        <th>Class</th>
+                        <th>Time</th>
+                        <th>Bookings</th>     
                     </tr>
-                @foreach($bookingclasses as $key => $value)
                     <tr>
-                        <td>{{ $value->classtype }}</td>
-                        <td>{{ $value->bookingdate }}</td>
-                        <td>{{ $value->bookingtime }}</td>
+                        <td>Fitness</td>
+                        <td>11am</td>
+                        <td><b>{{$morningfitness}}</b></td>
                     </tr>
-                @endforeach
+                    <tr>
+                        <td>Fitness</td>
+                        <td>8pm</td>
+                        <td><b>{{($eveningfitness)}}</b></td>
+                    </tr>
                 </table>
                 </div>
                 <div class="col-md-6">
                 <h4 class="text-center">Strength Classes</h4>
                 <table>
                     <tr>
-                        <th>Class Type</th>
-                        <th>Class Date</th>
-                        <th>Class Time</th>
-                        <th>Availability?</th>    
+                        <th>Class</th>
+                        <th>Time</th>
+                        <th>Bookings</th>     
                     </tr>
-                @foreach($bookingclasses as $key => $value)
                     <tr>
-                        <td>{{ $value->classtype }}</td>
-                        <td>{{ $value->bookingdate }}</td>
-                        <td>{{ $value->bookingtime }}</td>
+                        <td>Strength</td>
+                        <td>11am</td>
+                        <td><b>{{$morningstrength}}</b></td>
+
                     </tr>
-                @endforeach
+                    <tr>
+                        <td>Strength</td>
+                        <td>8pm</td>
+                        <td><b>{{$eveningstrength}}</b></td>
+   
+                    </tr>
                 </table>
                 </div>
                 </div>
