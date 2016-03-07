@@ -53,9 +53,15 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::get('/book/facility', 'FacilityController@index');
 
+    Route::post('/book/facility', 'FacilityController@store');
+
     Route::get('/book/class', 'ClassController@index');
 
     Route::post('/book/class', 'ClassController@store');
+
+    Route::get('/book/class/show/{id}', 'ClassController@show');
+
+    Route::get('/book/class/edit/{id}', 'ClassController@edit');
 });
 
 

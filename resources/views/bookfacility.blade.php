@@ -5,67 +5,253 @@
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
-                <div class="panel-heading">Facility</div>
+                <div class="panel-heading">Facilities</div>
                 <div class="panel-body">
-                <div class="col-md-6">
-                <h4 class="text-center">Search Availability</h4>
+                @if (Session::has('message'))
+                <div class="alert alert-success text-center">{{ Session::get('message') }}</div>
+                @endif
+                    <h3 class="text-center">Book Facility</h3>
                     <div class=".col-md-6">
+                    {!! BootForm::open() !!}
                       <div class="form-group">
-                        <label for="facility">Facility</label>
-                        <select class="form-control" name="from" id="from">
-                                      <option value="football">Football Pitch</option>
-                                      <option value="tennis">Tennis Court</option>
-                                      <option value="sportshall">Sports Hall</option>
-                                  </select>
+                         {!! BootForm::select('Type of Facility', 'facility')->options([ '' => '', 'football1' => 'Football Pitch 1', 'football2' => 'Football Pitch 2', 'tennis1' => 'Tennis Court 1', 'tennis2' => 'Tennis Court 2', 'sportshall' => 'Sports Hall'])->select('') !!}
                               </div>
                     </div>
 
                     <div class=".col-md-6">
-                    <label>Booking Date</label>
-                      <div class="form-group date" id="datepicker1">
-                         <input type="text" class="form-control" name="from_date" id="from_date" data-date-format="DD-MM-YYYY" value="">
-                          <span class="input-group-addon"><i class="fa fa-calendar-o"></i></span>
-                          <script type="text/javascript">
-                              $(function () {
-                                $('#datepicker1').datetimepicker({
-                                  pickTime: false,
-                                  useCurrent: true
-                                });
-                              });
-                          </script>
-                      </div>
+                        {!!BootForm::Date('Booking Date','date')!!}
                     </div>
 
                     <div class=".col-md-6">
                       <div class="form-group">
-                        <label for="time">Preffered Time</label>
-                        <select class="form-control" name="from" id="from">
-                                      <option value="morning">Morning</option>
-                                      <option value="evening">Evening</option>
-                                  </select>
-                              </div>
+                        {!! BootForm::select('Booking Time', 'time')->options([ '' => '', '1100' => '11:00', '1200' => '12:00', '1300' => '13:00', '1400' => '14:00', '1500' => '15:00', '1600' => '16:00', '1700' => '17:00', '1800' => '18:00', '1900' => '19:00', '2000' => '20:00', '2100' => '21:00', '2200' => '22:00', '2300' => '23:00'])->select('') !!}
                     </div>
-
-                    <div class=".col-md-6">
-                      <div class="form-group">
-                        <label for="gear">Require Gear</label>
-                        <span class="text-muted">(e.g. balls, rackets etc.)</span>
-                        <select class="form-control" name="from" id="from">
-                                      <option value="y">Yes</option>
-                                      <option value="n">No, bringing own</option>
-                                  </select>
-                              </div>
                     </div>
-
-
                     <div class="col-sm-12 col-md-12">
                     <div class="buttoncenter">
-                        <button type="button" id="check" class="btn btn-success" value="submit"><i class="fa fa-search"></i> Search</button>
+                        {!! Form::submit('Book Now', array('class' => 'btn btn-success')) !!}
+
                     </div>
                     </div>
-                    </div>
-                <div class="col-md-6">
-                <h3 class="text-center"><br><br><br><br><br><i class="fa fa-search-plus"></i> Available times will be displayed here after search</h3>
+                    {!! BootForm::close() !!}
+                    </form>
+                <div class="row">
+                <br>
+                <br>
+                <br>
+                <h3 class="text-center">Today's Availability</h3>
+                <br>
+                <div class="col-md-4">
+                <h4 class="text-center">Football Pitches</h4>
+                <table>
+                    <tr>
+                        <th>Time</th>
+                        <th>Pitch 1</th>
+                        <th>Pitch 2</th>
+                    </tr>
+                    <tr>
+                        <td>11am</td>
+                        <td><i class="fa fa-times"></i></td>
+                        <td><i class="fa fa-check"></i></td>
+                    </tr>
+                    <tr>
+                        <td>12pm</td>
+                        <td><i class="fa fa-times"></i></td>
+                        <td><i class="fa fa-check"></i></td>
+                    </tr>
+                    <tr>
+                        <td>1pm</td>
+                        <td><i class="fa fa-times"></i></td>
+                        <td><i class="fa fa-check"></i></td>
+                    </tr>
+                    <tr>
+                        <td>2pm</td>
+                        <td><i class="fa fa-times"></i></td>
+                        <td><i class="fa fa-check"></i></td>
+                    </tr>
+                    <tr>
+                        <td>3pm</td>
+                        <td><i class="fa fa-times"></i></td>
+                        <td><i class="fa fa-check"></i></td>
+                    </tr>
+                    <tr>
+                        <td>4pm</td>
+                        <td><i class="fa fa-times"></i></td>
+                        <td><i class="fa fa-check"></i></td>
+                    </tr>
+                    <tr>
+                        <td>5pm</td>
+                        <td><i class="fa fa-times"></i></td>
+                        <td><i class="fa fa-check"></i></td>
+                    </tr>
+                    <tr>
+                        <td>6pm</td>
+                        <td><i class="fa fa-times"></i></td>
+                        <td><i class="fa fa-check"></i></td>
+                    </tr>
+                    <tr>
+                        <td>7pm</td>
+                        <td><i class="fa fa-times"></i></td>
+                        <td><i class="fa fa-check"></i></td>
+                    </tr>
+                    <tr>
+                        <td>8pm</td>
+                        <td><i class="fa fa-times"></i></td>
+                        <td><i class="fa fa-check"></i></td>
+                    </tr>
+                    <tr>
+                        <td>9pm</td>
+                        <td><i class="fa fa-times"></i></td>
+                        <td><i class="fa fa-check"></i></td>
+                    </tr>
+                    <tr>
+                        <td>10pm</td>
+                        <td><i class="fa fa-times"></i></td>
+                        <td><i class="fa fa-check"></i></td>
+                    </tr>
+                    <tr>
+                        <td>11pm</td>
+                        <td><i class="fa fa-times"></i></td>
+                        <td><i class="fa fa-check"></i></td>
+                    </tr>
+                </table>
+                </div>
+                <div class="col-md-4">
+                <h4 class="text-center">Tennis Courts</h4>
+                <table>
+                    <tr>
+                        <th>Time</th>
+                        <th>Court 1</th>
+                        <th>Court 2</th>
+                    </tr>
+                    <tr>
+                        <td>11am</td>
+                        <td><i class="fa fa-times"></i></td>
+                        <td><i class="fa fa-check"></i></td>
+                    </tr>
+                    <tr>
+                        <td>12pm</td>
+                        <td><i class="fa fa-times"></i></td>
+                        <td><i class="fa fa-check"></i></td>
+                    </tr>
+                    <tr>
+                        <td>1pm</td>
+                        <td><i class="fa fa-times"></i></td>
+                        <td><i class="fa fa-check"></i></td>
+                    </tr>
+                    <tr>
+                        <td>2pm</td>
+                        <td><i class="fa fa-times"></i></td>
+                        <td><i class="fa fa-check"></i></td>
+                    </tr>
+                    <tr>
+                        <td>3pm</td>
+                        <td><i class="fa fa-times"></i></td>
+                        <td><i class="fa fa-check"></i></td>
+                    </tr>
+                    <tr>
+                        <td>4pm</td>
+                        <td><i class="fa fa-times"></i></td>
+                        <td><i class="fa fa-check"></i></td>
+                    </tr>
+                    <tr>
+                        <td>5pm</td>
+                        <td><i class="fa fa-times"></i></td>
+                        <td><i class="fa fa-check"></i></td>
+                    </tr>
+                    <tr>
+                        <td>6pm</td>
+                        <td><i class="fa fa-times"></i></td>
+                        <td><i class="fa fa-check"></i></td>
+                    </tr>
+                    <tr>
+                        <td>7pm</td>
+                        <td><i class="fa fa-times"></i></td>
+                        <td><i class="fa fa-check"></i></td>
+                    </tr>
+                    <tr>
+                        <td>8pm</td>
+                        <td><i class="fa fa-times"></i></td>
+                        <td><i class="fa fa-check"></i></td>
+                    </tr>
+                    <tr>
+                        <td>9pm</td>
+                        <td><i class="fa fa-times"></i></td>
+                        <td><i class="fa fa-check"></i></td>
+                    </tr>
+                    <tr>
+                        <td>10pm</td>
+                        <td><i class="fa fa-times"></i></td>
+                        <td><i class="fa fa-check"></i></td>
+                    </tr>
+                    <tr>
+                        <td>11pm</td>
+                        <td><i class="fa fa-times"></i></td>
+                        <td><i class="fa fa-check"></i></td>
+                    </tr>
+                </table>
+                </div>
+                <div class="col-md-4">
+                <h4 class="text-center">Sports Hall</h4>
+                <table>
+                    <tr>
+                        <th>Time</th>
+                        <th>Hall</th>
+                    </tr>
+                    <tr>
+                        <td>11am</td>
+                        <td><i class="fa fa-check"></i></td>
+                    </tr>
+                    <tr>
+                        <td>12pm</td>
+                        <td><i class="fa fa-times"></i></td>
+                    </tr>
+                    <tr>
+                        <td>1pm</td>
+                        <td><i class="fa fa-times"></i></td>
+                    </tr>
+                    <tr>
+                        <td>2pm</td>
+                        <td><i class="fa fa-check"></i></td>
+                    </tr>
+                    <tr>
+                        <td>3pm</td>
+                        <td><i class="fa fa-times"></i></td>
+                    </tr>
+                    <tr>
+                        <td>4pm</td>
+                        <td><i class="fa fa-times"></i></td>
+                    </tr>
+                    <tr>
+                        <td>5pm</td>
+                        <td><i class="fa fa-check"></i></td>
+                    </tr>
+                    <tr>
+                        <td>6pm</td>
+                        <td><i class="fa fa-times"></i></td>
+                    </tr>
+                    <tr>
+                        <td>7pm</td>
+                        <td><i class="fa fa-check"></i></td>
+                    </tr>
+                    <tr>
+                        <td>8pm</td>
+                        <td><i class="fa fa-check"></i></td>
+                    </tr>
+                    <tr>
+                        <td>9pm</td>
+                        <td><i class="fa fa-check"></i></td>
+                    </tr>
+                    <tr>
+                        <td>10pm</td>
+                        <td><i class="fa fa-times"></i></td>
+                    </tr>
+                    <tr>
+                        <td>11pm</td>
+                        <td><i class="fa fa-check"></i></td>
+                    </tr>
+                </table>
+                </div>
                 </div>
                 </div>
             </div>

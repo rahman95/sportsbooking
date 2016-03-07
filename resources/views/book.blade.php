@@ -11,7 +11,7 @@
 
                 <div id="imagelist">
                 <a href="{{ url('/book/class') }}">
-                <img src="img/book/1.png" class="img-responsive">
+                <img src="img/book/1new.png" class="img-responsive">
                 <p class="imgtext">
                 <span>
                     <span>Book Class</span>
@@ -25,7 +25,7 @@
                 <div class="col-md-6">
                 <div id="imagelist">
                 <a href="{{ url('/book/facility') }}">
-                <img src="img/book/2.png" class="img-responsive">
+                <img src="img/book/2new.png" class="img-responsive">
                 <p class="imgtext">
                 <span>
                 <span>Book Sports Facility</span>

@@ -16,24 +16,12 @@
                     <div class=".col-md-6">
                     {!! BootForm::open() !!}
                       <div class="form-group">
-                         {!! BootForm::select('Type of Class', 'type')->options([ '' => '', 'fitness' => 'Fitness', 'strength' => 'Strength'])->select('') !!}
+                         {!! BootForm::select('Type of Class', 'class')->options([ '' => '', 'fitness' => 'Fitness', 'strength' => 'Strength'])->select('') !!}
                               </div>
                     </div>
 
                     <div class=".col-md-6">
-                        <label>Booking Date</label>
-                         <div class="form-group date" id="datepicker1">
-                             <input type="text" class="form-control" name="date" id="from_date" data-date-format="YYYY-MM-DD" value="">
-                              <span class="input-group-addon"><i class="fa fa-calendar-o"></i></span>
-                              <script type="text/javascript">
-                                  $(function () {
-                                    $('#datepicker1').datetimepicker({
-                                      pickTime: false,
-                                      useCurrent: false
-                                    });
-                                  });
-                              </script>
-                          </div>
+                        {!!BootForm::Date('Booking Date','date')!!}
                     </div>
 
                     <div class=".col-md-6">

@@ -72,7 +72,7 @@ class ClassController extends Controller
     {
 
          $rules = array(
-            'type' => 'required',
+            'class' => 'required',
             'date' => 'required|date|after:yesterday',
             'time' => 'required'
         );
@@ -86,9 +86,12 @@ class ClassController extends Controller
         }
         else{
 
+        $date = Input::get('date');
+        $bookingdate = date("Y-m-d", strtotime($date));
+
         $class = new \App\Classes;
-        $class->classtype   = Input::get('type');
-        $class->bookingdate = Input::get('date');
+        $class->classtype   = Input::get('class');
+        $class->bookingdate = $bookingdate;
         $class->bookingtime = Input::get('time');
         $class->bookedby = Auth::user()->name;
 
@@ -100,6 +103,31 @@ class ClassController extends Controller
         return Redirect::to('book/class');
         }
 
-        // Store the blog post...
+        }
+    public function show($id)
+    {
+        $class = \App\Classes::find($id);
+
+        // show the view and pass the nerd to it
+        return view('showclass')->with('class', $class);
+    }
+
+    public function edit($id)
+    {
+        $class = \App\Classes::find($id);
+
+        // show the view and pass the nerd to it
+        return view('editclass')->with('class', $class);
+
+    }
+
+    public function update($id)
+    {
+
+    }
+
+    public function delete($id)
+    {
+
     }
 }
