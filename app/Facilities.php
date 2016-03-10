@@ -8,5 +8,5 @@ class Facilities extends Model
 {
     protected $table = 'facility';
 
-    protected $fillable = array('facilitytype', 'bookingdate', 'bookingtime');
+    protected $fillable = array('facilitytype', 'bookingdate', 'bookingtime', 'bookedby');
 }

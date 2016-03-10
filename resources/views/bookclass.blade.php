@@ -10,6 +10,9 @@
                 @if (Session::has('message'))
                 <div class="alert alert-success text-center">{{ Session::get('message') }}</div>
                 @endif
+                @if (Session::has('error'))
+                <div class="alert alert-danger text-center">{{ Session::get('error') }}</div>
+                @endif
                 <div class="row">
                 <div class="col-md-6">
                     <h3 class="text-center">Book Class</h3>
@@ -27,19 +30,19 @@
                     <div class=".col-md-6">
                       <div class="form-group">
                         {!! BootForm::select('Preffered Time', 'time')->options([ '' => '', '11' => '11:00', '20' => '20:00'])->select('') !!}
-                              </div>
+                      </div>
                     </div>
-
-
                     <div class="col-sm-12 col-md-12">
                     <div class="buttoncenter">
-                        {!! BootForm::submit('<i class="fa fa-bookmark"></i> Book Now') !!}
+                        {!! Form::submit('Book Now', array('class' => 'btn btn-success')) !!}
                     </div>
                     </div>
                     {!! BootForm::close() !!}
                     </div>
                     </form>
                 <div class="col-md-6">
+                <br>
+                <br>
                 <br>
                 <h3 class="text-center">Class Schedule</h3>
                 <br>

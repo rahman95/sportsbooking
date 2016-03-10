@@ -11,6 +11,7 @@ use Redirect;
 use Auth;
 use DateTime;
 use DB;
+use Carbon\Carbon;
 
 class ClassController extends Controller
 {
@@ -70,6 +71,8 @@ class ClassController extends Controller
 
     public function store()
     {
+        $dt = Carbon::now();
+        $dttime = $dt->format('H:i');
 
          $rules = array(
             'class' => 'required',
@@ -80,27 +83,37 @@ class ClassController extends Controller
         $validator = Validator::make(Input::all(), $rules);
 
         if ($validator->fails()) {
+            Session::flash('error', 'There are error(s) on the Form!');
             return redirect('book/class')
                         ->withErrors($validator)
                         ->withInput();
         }
         else{
 
-        $date = Input::get('date');
-        $bookingdate = date("Y-m-d", strtotime($date));
+            if($dttime < Input::get('time')){
 
-        $class = new \App\Classes;
-        $class->classtype   = Input::get('class');
-        $class->bookingdate = $bookingdate;
-        $class->bookingtime = Input::get('time');
-        $class->bookedby = Auth::user()->name;
+                $date = Input::get('date');
+                $bookingdate = date("Y-m-d", strtotime($date));
 
-        $class->save();
+                $class = new \App\Classes;
+                $class->classtype   = Input::get('class');
+                $class->bookingdate = $bookingdate;
+                $class->bookingtime = Input::get('time');
+                $class->bookedby = Auth::user()->name;
 
-        // redirect ----------------------------------------
-        // redirect our user back to the form so they can do it all over again
-        Session::flash('message', 'Booked Successfully!');
-        return Redirect::to('book/class');
+                $class->save();
+
+                // redirect ----------------------------------------
+                // redirect our user back to the form so they can do it all over again
+                Session::flash('message', 'Booked Successfully!');
+                return Redirect::to('book/class');
+            }
+            else{
+                Session::flash('error', 'Booking time cannot be in the Past!');
+                return Redirect::to('book/class');
+            }
+
+        
         }
 
         }

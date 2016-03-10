@@ -16,7 +16,6 @@
     {{-- <link href="{{ elixir('css/app.css') }}" rel="stylesheet"> --}}
     <link href="{{{ asset('/css/style.css') }}}" rel="stylesheet">    
     <link href="{{{ asset('/css/datetimepicker.min.css') }}}" rel="stylesheet">
-    <link href="{{{ asset('/css/iconFont.min.css') }}}" rel="stylesheet">
     
     <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 

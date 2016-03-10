@@ -11,6 +11,7 @@ use Redirect;
 use Auth;
 use DateTime;
 use DB;
+use Carbon\Carbon;
 
 class FacilityController extends Controller
 {
@@ -31,45 +32,32 @@ class FacilityController extends Controller
      */
     public function index()
     {
+        $pitch1 = \App\Facilities::where('facilitytype', "football1")
+                                 ->get();
+        $pitch2 = \App\Facilities::where('facilitytype', "football2")
+                                 ->get();
+        $court1 = \App\Facilities::where('facilitytype', "tennis1")
+                                 ->get();
+        $court2 = \App\Facilities::where('facilitytype', "tennis2")
+                                 ->get();
+        $hall   = \App\Facilities::where('facilitytype', "sportshall")
+                                 ->get();
 
-        $morningfitness = DB::table('class')
-                     ->select('*')
-                     ->where('bookingdate', '=', new DateTime('today'))
-                     ->where('classtype', '=', "fitness")
-                     ->where('bookingtime', '=', "11")
-                     ->count();
 
-        $eveningfitness = DB::table('class')
-                     ->select('*')
-                     ->where('bookingdate', '=', new DateTime('today'))
-                     ->where('classtype', '=', "fitness")
-                     ->where('bookingtime', '=', "20")
-                     ->count();
-
-        $morningstrength = DB::table('class')
-                     ->select('*')
-                     ->where('bookingdate', '=', new DateTime('today'))
-                     ->where('classtype', '=', "strength")
-                     ->where('bookingtime', '=', "11")
-                     ->count();
-
-        $eveningstrength = DB::table('class')
-                     ->select('*')
-                     ->where('bookingdate', '=', new DateTime('today'))
-                     ->where('classtype', '=', "strength")
-                     ->where('bookingtime', '=', "20")
-                     ->count();
-                     
-        $bookingclasses = \App\Classes::all();
         return view('bookfacility')
-        ->with('morningfitness', $morningfitness)
-        ->with('eveningfitness', $eveningfitness)
-        ->with('morningstrength', $morningstrength)
-        ->with('eveningstrength', $eveningstrength);
+        ->with('pitch1', $pitch1)
+        ->with('pitch2', $pitch2)
+        ->with('court1', $court1)
+        ->with('court2', $court2)
+        ->with('hall', $hall);
     }
 
     public function store()
     {
+        $date = Input::get('date');
+        $bookingdate = date("Y-m-d", strtotime($date));
+        $dt = Carbon::now();
+        $dttime = $dt->format('H:i');
 
          $rules = array(
             'facility' => 'required',
@@ -85,24 +73,38 @@ class FacilityController extends Controller
                         ->withInput();
         }
         else{
+            if($dttime < Input::get('time')){
 
-        $date = Input::get('date');
-        $bookingdate = date("Y-m-d", strtotime($date));
+            if (\App\Facilities::where('facilitytype', '=', Input::get('facility'))
+            ->where('bookingdate', '=', $bookingdate)
+            ->where('bookingtime', '=', Input::get('time'))
+            ->exists()){
 
-        $facility = new \App\Facilities;
-        $facility->facilitytype   = Input::get('facility');
-        $facility->bookingdate = $bookingdate;
-        $facility->bookingtime = Input::get('time');
-        $facility->bookedby = Auth::user()->name;
+            Session::flash('error', 'Booking already exists, please choose alternative time!');
+            return Redirect::to('book/facility');
 
-        $facility->save();
+           }
+            else{
 
-        // redirect ----------------------------------------
-        // redirect our user back to the form so they can do it all over again
-        Session::flash('message', 'Booked Successfully!');
-        return Redirect::to('book/facility');
+                $facility = new \App\Facilities;
+                $facility->facilitytype   = Input::get('facility');
+                $facility->bookingdate = $bookingdate;
+                $facility->bookingtime = Input::get('time');
+                $facility->bookedby = Auth::user()->name;
+
+                $facility->save();
+
+                Session::flash('message', 'Booked Successfully!');
+                return Redirect::to('book/facility');
+
+           }
+            }
+            else{
+                Session::flash('error', 'Booking time cannot be in the Past!');
+                return Redirect::to('book/facility');
+            }
+
+           
         }
-
-        // Store the blog post...
     }
 }

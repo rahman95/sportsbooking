@@ -10,6 +10,9 @@
                 @if (Session::has('message'))
                 <div class="alert alert-success text-center">{{ Session::get('message') }}</div>
                 @endif
+                @if (Session::has('error'))
+                <div class="alert alert-danger text-center">{{ Session::get('error') }}</div>
+                @endif
                     <h3 class="text-center">Book Facility</h3>
                     <div class=".col-md-6">
                     {!! BootForm::open() !!}
@@ -30,18 +33,20 @@
                     <div class="col-sm-12 col-md-12">
                     <div class="buttoncenter">
                         {!! Form::submit('Book Now', array('class' => 'btn btn-success')) !!}
-
                     </div>
                     </div>
                     {!! BootForm::close() !!}
+                    </div>
                     </form>
                 <div class="row">
                 <br>
                 <br>
                 <br>
                 <h3 class="text-center">Today's Availability</h3>
-                <br>
+                <h4 class="text-center text-muted">(0 is free, and 1 and is booked.)</h4>
                 <div class="col-md-4">
+                <br>
+                <br>
                 <h4 class="text-center">Football Pitches</h4>
                 <table>
                     <tr>
@@ -51,72 +56,74 @@
                     </tr>
                     <tr>
                         <td>11am</td>
-                        <td><i class="fa fa-times"></i></td>
-                        <td><i class="fa fa-check"></i></td>
+                        <td> {{$pitch1->where('bookingtime', '1100')->count()}} </td>
+                        <td> {{$pitch2->where('bookingtime', '1100')->count()}} </td>
                     </tr>
                     <tr>
                         <td>12pm</td>
-                        <td><i class="fa fa-times"></i></td>
-                        <td><i class="fa fa-check"></i></td>
+                        <td> {{$pitch1->where('bookingtime', '1200')->count()}} </td>
+                        <td> {{$pitch2->where('bookingtime', '1200')->count()}} </td>
                     </tr>
                     <tr>
                         <td>1pm</td>
-                        <td><i class="fa fa-times"></i></td>
-                        <td><i class="fa fa-check"></i></td>
+                        <td> {{$pitch1->where('bookingtime', '1300')->count()}} </td>
+                        <td> {{$pitch2->where('bookingtime', '1300')->count()}} </td>
                     </tr>
                     <tr>
                         <td>2pm</td>
-                        <td><i class="fa fa-times"></i></td>
-                        <td><i class="fa fa-check"></i></td>
+                        <td> {{$pitch1->where('bookingtime', '1400')->count()}} </td>
+                        <td> {{$pitch2->where('bookingtime', '1400')->count()}} </td>
                     </tr>
                     <tr>
                         <td>3pm</td>
-                        <td><i class="fa fa-times"></i></td>
-                        <td><i class="fa fa-check"></i></td>
+                        <td> {{$pitch1->where('bookingtime', '1500')->count()}} </td>
+                        <td> {{$pitch2->where('bookingtime', '1500')->count()}} </td>
                     </tr>
                     <tr>
                         <td>4pm</td>
-                        <td><i class="fa fa-times"></i></td>
-                        <td><i class="fa fa-check"></i></td>
+                        <td> {{$pitch1->where('bookingtime', '1600')->count()}} </td>
+                        <td> {{$pitch2->where('bookingtime', '1600')->count()}} </td>
                     </tr>
                     <tr>
                         <td>5pm</td>
-                        <td><i class="fa fa-times"></i></td>
-                        <td><i class="fa fa-check"></i></td>
+                        <td> {{$pitch1->where('bookingtime', '1700')->count()}} </td>
+                        <td> {{$pitch2->where('bookingtime', '1700')->count()}} </td>
                     </tr>
                     <tr>
                         <td>6pm</td>
-                        <td><i class="fa fa-times"></i></td>
-                        <td><i class="fa fa-check"></i></td>
+                        <td> {{$pitch1->where('bookingtime', '1800')->count()}} </td>
+                        <td> {{$pitch2->where('bookingtime', '1800')->count()}} </td>
                     </tr>
                     <tr>
                         <td>7pm</td>
-                        <td><i class="fa fa-times"></i></td>
-                        <td><i class="fa fa-check"></i></td>
+                        <td> {{$pitch1->where('bookingtime', '1900')->count()}} </td>
+                        <td> {{$pitch2->where('bookingtime', '1900')->count()}} </td>
                     </tr>
                     <tr>
                         <td>8pm</td>
-                        <td><i class="fa fa-times"></i></td>
-                        <td><i class="fa fa-check"></i></td>
+                        <td> {{$pitch1->where('bookingtime', '2000')->count()}} </td>
+                        <td> {{$pitch2->where('bookingtime', '2000')->count()}} </td>
                     </tr>
                     <tr>
                         <td>9pm</td>
-                        <td><i class="fa fa-times"></i></td>
-                        <td><i class="fa fa-check"></i></td>
+                        <td> {{$pitch1->where('bookingtime', '2100')->count()}} </td>
+                        <td> {{$pitch2->where('bookingtime', '2100')->count()}} </td>
                     </tr>
                     <tr>
                         <td>10pm</td>
-                        <td><i class="fa fa-times"></i></td>
-                        <td><i class="fa fa-check"></i></td>
+                        <td> {{$pitch1->where('bookingtime', '2200')->count()}} </td>
+                        <td> {{$pitch2->where('bookingtime', '2200')->count()}} </td>
                     </tr>
                     <tr>
                         <td>11pm</td>
-                        <td><i class="fa fa-times"></i></td>
-                        <td><i class="fa fa-check"></i></td>
+                        <td> {{$pitch1->where('bookingtime', '2300')->count()}} </td>
+                        <td> {{$pitch2->where('bookingtime', '2300')->count()}} </td>
                     </tr>
                 </table>
                 </div>
                 <div class="col-md-4">
+                <br>
+                <br>
                 <h4 class="text-center">Tennis Courts</h4>
                 <table>
                     <tr>
@@ -126,72 +133,74 @@
                     </tr>
                     <tr>
                         <td>11am</td>
-                        <td><i class="fa fa-times"></i></td>
-                        <td><i class="fa fa-check"></i></td>
+                        <td> {{$court1->where('bookingtime', '1100')->count()}} </td>
+                        <td> {{$court2->where('bookingtime', '1100')->count()}} </td>
                     </tr>
                     <tr>
                         <td>12pm</td>
-                        <td><i class="fa fa-times"></i></td>
-                        <td><i class="fa fa-check"></i></td>
+                        <td> {{$court1->where('bookingtime', '1200')->count()}} </td>
+                        <td> {{$court2->where('bookingtime', '1200')->count()}} </td>
                     </tr>
                     <tr>
                         <td>1pm</td>
-                        <td><i class="fa fa-times"></i></td>
-                        <td><i class="fa fa-check"></i></td>
+                        <td> {{$court1->where('bookingtime', '1300')->count()}} </td>
+                        <td> {{$court2->where('bookingtime', '1300')->count()}} </td>
                     </tr>
                     <tr>
                         <td>2pm</td>
-                        <td><i class="fa fa-times"></i></td>
-                        <td><i class="fa fa-check"></i></td>
+                        <td> {{$court1->where('bookingtime', '1400')->count()}} </td>
+                        <td> {{$court2->where('bookingtime', '1400')->count()}} </td>
                     </tr>
                     <tr>
                         <td>3pm</td>
-                        <td><i class="fa fa-times"></i></td>
-                        <td><i class="fa fa-check"></i></td>
+                        <td> {{$court1->where('bookingtime', '1500')->count()}} </td>
+                        <td> {{$court2->where('bookingtime', '1500')->count()}} </td>
                     </tr>
                     <tr>
                         <td>4pm</td>
-                        <td><i class="fa fa-times"></i></td>
-                        <td><i class="fa fa-check"></i></td>
+                        <td> {{$court1->where('bookingtime', '1600')->count()}} </td>
+                        <td> {{$court2->where('bookingtime', '1600')->count()}} </td>
                     </tr>
                     <tr>
                         <td>5pm</td>
-                        <td><i class="fa fa-times"></i></td>
-                        <td><i class="fa fa-check"></i></td>
+                        <td> {{$court1->where('bookingtime', '1700')->count()}} </td>
+                        <td> {{$court2->where('bookingtime', '1700')->count()}} </td>
                     </tr>
                     <tr>
                         <td>6pm</td>
-                        <td><i class="fa fa-times"></i></td>
-                        <td><i class="fa fa-check"></i></td>
+                        <td> {{$court1->where('bookingtime', '1800')->count()}} </td>
+                        <td> {{$court2->where('bookingtime', '1800')->count()}} </td>
                     </tr>
                     <tr>
                         <td>7pm</td>
-                        <td><i class="fa fa-times"></i></td>
-                        <td><i class="fa fa-check"></i></td>
+                        <td> {{$court1->where('bookingtime', '1900')->count()}} </td>
+                        <td> {{$court2->where('bookingtime', '1900')->count()}} </td>
                     </tr>
                     <tr>
                         <td>8pm</td>
-                        <td><i class="fa fa-times"></i></td>
-                        <td><i class="fa fa-check"></i></td>
+                        <td> {{$court1->where('bookingtime', '2000')->count()}} </td>
+                        <td> {{$court2->where('bookingtime', '2000')->count()}} </td>
                     </tr>
                     <tr>
                         <td>9pm</td>
-                        <td><i class="fa fa-times"></i></td>
-                        <td><i class="fa fa-check"></i></td>
+                        <td> {{$court1->where('bookingtime', '2100')->count()}} </td>
+                        <td> {{$court2->where('bookingtime', '2100')->count()}} </td>
                     </tr>
                     <tr>
                         <td>10pm</td>
-                        <td><i class="fa fa-times"></i></td>
-                        <td><i class="fa fa-check"></i></td>
+                        <td> {{$court1->where('bookingtime', '2200')->count()}} </td>
+                        <td> {{$court2->where('bookingtime', '2200')->count()}} </td>
                     </tr>
                     <tr>
                         <td>11pm</td>
-                        <td><i class="fa fa-times"></i></td>
-                        <td><i class="fa fa-check"></i></td>
+                        <td> {{$court1->where('bookingtime', '2300')->count()}} </td>
+                        <td> {{$court2->where('bookingtime', '2300')->count()}} </td>
                     </tr>
                 </table>
                 </div>
                 <div class="col-md-4">
+                <br>
+                <br>
                 <h4 class="text-center">Sports Hall</h4>
                 <table>
                     <tr>
@@ -200,55 +209,55 @@
                     </tr>
                     <tr>
                         <td>11am</td>
-                        <td><i class="fa fa-check"></i></td>
+                        <td> {{$hall->where('bookingtime', '1100')->count()}} </td>
                     </tr>
                     <tr>
                         <td>12pm</td>
-                        <td><i class="fa fa-times"></i></td>
+                        <td> {{$hall->where('bookingtime', '1200')->count()}} </td>
                     </tr>
                     <tr>
                         <td>1pm</td>
-                        <td><i class="fa fa-times"></i></td>
+                        <td> {{$hall->where('bookingtime', '1300')->count()}} </td>
                     </tr>
                     <tr>
                         <td>2pm</td>
-                        <td><i class="fa fa-check"></i></td>
+                        <td> {{$hall->where('bookingtime', '1400')->count()}} </td>
                     </tr>
                     <tr>
                         <td>3pm</td>
-                        <td><i class="fa fa-times"></i></td>
+                        <td> {{$hall->where('bookingtime', '1500')->count()}} </td>
                     </tr>
                     <tr>
                         <td>4pm</td>
-                        <td><i class="fa fa-times"></i></td>
+                        <td> {{$hall->where('bookingtime', '1600')->count()}} </td>
                     </tr>
                     <tr>
                         <td>5pm</td>
-                        <td><i class="fa fa-check"></i></td>
+                        <td> {{$hall->where('bookingtime', '1700')->count()}} </td>
                     </tr>
                     <tr>
                         <td>6pm</td>
-                        <td><i class="fa fa-times"></i></td>
+                        <td> {{$hall->where('bookingtime', '1800')->count()}} </td>
                     </tr>
                     <tr>
                         <td>7pm</td>
-                        <td><i class="fa fa-check"></i></td>
+                        <td> {{$hall->where('bookingtime', '1900')->count()}} </td>
                     </tr>
                     <tr>
                         <td>8pm</td>
-                        <td><i class="fa fa-check"></i></td>
+                        <td> {{$hall->where('bookingtime', '2000')->count()}} </td>
                     </tr>
                     <tr>
                         <td>9pm</td>
-                        <td><i class="fa fa-check"></i></td>
+                        <td> {{$hall->where('bookingtime', '2100')->count()}} </td>
                     </tr>
                     <tr>
                         <td>10pm</td>
-                        <td><i class="fa fa-times"></i></td>
+                        <td> {{$hall->where('bookingtime', '2200')->count()}} </td>
                     </tr>
                     <tr>
                         <td>11pm</td>
-                        <td><i class="fa fa-check"></i></td>
+                        <td> {{$hall->where('bookingtime', '2300')->count()}} </td>
                     </tr>
                 </table>
                 </div>

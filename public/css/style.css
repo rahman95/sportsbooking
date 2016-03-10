@@ -120,3 +120,17 @@ color:          white !important;
 .lu-footer {
   padding: 25px 0;
 }
+table {
+    width: 100%;
+}
+
+th {
+    height: 50px;
+    background-color: #7a7a52;
+    color: white;
+}
+th, td {
+    padding: 15px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
