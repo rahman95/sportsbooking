@@ -73,6 +73,11 @@ class ClassController extends Controller
     {
         $dt = Carbon::now();
         $dttime = $dt->format('H:i');
+        $dtdate = $dt->format('d-m-Y');
+        $date = Input::get('date');
+        $datenormal = date("d-m-Y", strtotime($date));
+        $bookingdate = date("Y-m-d", strtotime($date));
+
 
          $rules = array(
             'class' => 'required',
@@ -90,10 +95,7 @@ class ClassController extends Controller
         }
         else{
 
-            if($dttime < Input::get('time')){
-
-                $date = Input::get('date');
-                $bookingdate = date("Y-m-d", strtotime($date));
+            if($dtdate == $datenormal && $dttime < Input::get('time')){
 
                 $class = new \App\Classes;
                 $class->classtype   = Input::get('class');
@@ -103,8 +105,19 @@ class ClassController extends Controller
 
                 $class->save();
 
-                // redirect ----------------------------------------
-                // redirect our user back to the form so they can do it all over again
+                Session::flash('message', 'Booked Successfully!');
+                return Redirect::to('book/class');
+            }
+            elseif($dtdate != $datenormal){
+
+                $class = new \App\Classes;
+                $class->classtype   = Input::get('class');
+                $class->bookingdate = $bookingdate;
+                $class->bookingtime = Input::get('time');
+                $class->bookedby = Auth::user()->name;
+
+                $class->save();
+
                 Session::flash('message', 'Booked Successfully!');
                 return Redirect::to('book/class');
             }

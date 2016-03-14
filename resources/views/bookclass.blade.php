@@ -41,9 +41,6 @@
                     </div>
                     </form>
                 <div class="col-md-6">
-                <br>
-                <br>
-                <br>
                 <h3 class="text-center">Class Schedule</h3>
                 <br>
                 <h4 class="text-center">Morning Classes</h4>

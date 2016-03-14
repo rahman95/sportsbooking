@@ -32,15 +32,23 @@ class FacilityController extends Controller
      */
     public function index()
     {
+        $dt = Carbon::now();
+        $dtdate = $dt->format('Y-m-d');
+
         $pitch1 = \App\Facilities::where('facilitytype', "football1")
+                                 ->where('bookingdate', $dtdate)
                                  ->get();
         $pitch2 = \App\Facilities::where('facilitytype', "football2")
+                                 ->where('bookingdate', $dtdate)
                                  ->get();
         $court1 = \App\Facilities::where('facilitytype', "tennis1")
+                                 ->where('bookingdate', $dtdate)
                                  ->get();
         $court2 = \App\Facilities::where('facilitytype', "tennis2")
+                                 ->where('bookingdate', $dtdate)
                                  ->get();
         $hall   = \App\Facilities::where('facilitytype', "sportshall")
+                                 ->where('bookingdate', $dtdate)
                                  ->get();
 
 
@@ -56,8 +64,10 @@ class FacilityController extends Controller
     {
         $date = Input::get('date');
         $bookingdate = date("Y-m-d", strtotime($date));
+        $datenormal = date("d-m-Y", strtotime($date));
         $dt = Carbon::now();
         $dttime = $dt->format('H:i');
+        $dtdate = $dt->format('d-m-Y');
 
          $rules = array(
             'facility' => 'required',
@@ -73,31 +83,31 @@ class FacilityController extends Controller
                         ->withInput();
         }
         else{
-            if($dttime < Input::get('time')){
+            if($dtdate == $datenormal && $dttime < Input::get('time')){
 
-            if (\App\Facilities::where('facilitytype', '=', Input::get('facility'))
-            ->where('bookingdate', '=', $bookingdate)
-            ->where('bookingtime', '=', Input::get('time'))
-            ->exists()){
+                if (\App\Facilities::where('facilitytype', '=', Input::get('facility'))
+                ->where('bookingdate', '=', $bookingdate)
+                ->where('bookingtime', '=', Input::get('time'))
+                ->exists()){
 
-            Session::flash('error', 'Booking already exists, please choose alternative time!');
-            return Redirect::to('book/facility');
-
-           }
-            else{
-
-                $facility = new \App\Facilities;
-                $facility->facilitytype   = Input::get('facility');
-                $facility->bookingdate = $bookingdate;
-                $facility->bookingtime = Input::get('time');
-                $facility->bookedby = Auth::user()->name;
-
-                $facility->save();
-
-                Session::flash('message', 'Booked Successfully!');
+                Session::flash('error', 'Booking already exists, please choose alternative time!');
                 return Redirect::to('book/facility');
 
-           }
+               }
+                else{
+
+                    $facility = new \App\Facilities;
+                    $facility->facilitytype   = Input::get('facility');
+                    $facility->bookingdate = $bookingdate;
+                    $facility->bookingtime = Input::get('time');
+                    $facility->bookedby = Auth::user()->name;
+
+                    $facility->save();
+
+                    Session::flash('message', 'Booked Successfully!');
+                    return Redirect::to('book/facility');
+
+               }
             }
             else{
                 Session::flash('error', 'Booking time cannot be in the Past!');
