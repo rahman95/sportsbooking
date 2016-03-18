@@ -38,6 +38,38 @@
                             </div>
                         </div>
 
+                        <div class="form-group{{ $errors->has('gender') ? ' has-error' : '' }}">
+                            <label class="col-md-4 control-label">Gender</label>
+
+                            <div class="col-md-6">
+                            <select name="gender" class="form-control" value="{{ old('gender') }}">
+                              <option value="male">Male</option>
+                              <option value="female">Female</option>
+                              <option value="other">Other</option>
+                            </select>
+                                @if ($errors->has('gender'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('gender') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+                        <div class="form-group{{ $errors->has('dob') ? ' has-error' : '' }}">
+                            <label class="col-md-4 control-label">Date of Birth</label>
+
+                            <div class="col-md-6">
+                             <input type="date" class="form-control" name="dob">
+
+                                @if ($errors->has('dob'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('dob') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
+
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                             <label class="col-md-4 control-label">Password</label>
 
@@ -66,8 +98,22 @@
                             </div>
                         </div>
 
+                        <div class="form-group{{ $errors->has('checkbox') ? ' has-error' : '' }}">
+                            <label class="col-md-4 control-label"></label>
+
+                            <div class="col-md-6">
+                                <input type="checkbox" name="checkbox"> I have read and agree to the Terms and Conditions
+
+                                @if ($errors->has('checkbox'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('checkbox') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
                         <div class="form-group">
-                            <div class="col-md-6 col-md-offset-4">
+                            <div class="col-md-6 col-md-offset-5">
                                 <button type="submit" class="btn btn-primary">
                                     <i class="fa fa-btn fa-user"></i>Register
                                 </button>

@@ -140,6 +140,7 @@ class ClassController extends Controller
 
     public function edit($id)
     {
+        
         $class = \App\Classes::find($id);
 
         // show the view and pass the nerd to it
