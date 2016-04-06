@@ -117,4 +117,87 @@ class FacilityController extends Controller
            
         }
     }
+
+     public function show($id)
+    {
+        $facility = \App\Facilities::find($id);
+        $dt = Carbon::now();
+        $today = $dt->format('Y-m-d');
+
+        // show the view and pass the nerd to it
+        return view('showfacility')->with('facility', $facility)->with('today', $today);
+    }
+
+    public function edit($id)
+    {
+        
+        $facility = \App\Facilities::find($id);
+
+        // show the view and pass the nerd to it
+        return view('editfacility')->with('facility', $facility);
+
+    }
+
+    public function update($id)
+    {
+        $date = Input::get('bookingdate');
+        $bookingdate = date("Y-m-d", strtotime($date));
+        $datenormal = date("d-m-Y", strtotime($date));
+        $dt = Carbon::now();
+        $dttime = $dt->format('H:i');
+        $dtdate = $dt->format('d-m-Y');
+
+         $rules = array(
+            'facilitytype' => 'required',
+            'bookingdate' => 'required|date|after:yesterday',
+            'bookingtime' => 'required'
+        );
+
+        $validator = Validator::make(Input::all(), $rules);
+
+        if ($validator->fails()) {
+            return redirect('book/facility/edit/' . $id)
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+        else{
+            if($dtdate == $datenormal && $dttime < Input::get('bookingtime')){
+
+                if (\App\Facilities::where('facilitytype', '=', Input::get('facilitytype'))
+                ->where('bookingdate', '=', $bookingdate)
+                ->where('bookingtime', '=', Input::get('bookingtime'))
+                ->exists()){
+
+                Session::flash('error', 'Booking time already taken');
+                return Redirect::to('book/facility/edit/' . $id);
+
+               }
+                else{
+
+                    $facility = \App\Facilities::findOrFail($id);
+                    $facility->facilitytype   = Input::get('facilitytype');
+                    $facility->bookingdate = $bookingdate;
+                    $facility->bookingtime = Input::get('bookingtime');
+                    $facility->bookedby = Auth::user()->name;
+                    $facility->save();
+
+                    Session::flash('message', 'Booking Successfully Updated');
+                    return Redirect::to('book/facility/show/' . $id);
+
+                    //$facility = \App\Facilities::find($id);
+
+                    // show the view and pass the nerd to it
+                    //return view('showfacility')->with('facility', $facility);
+
+               }
+            }
+            else{
+                Session::flash('error', 'Booking time cannot be in the Past!');
+                return Redirect::to('book/facility/edit/' . $id);
+            }
+
+           
+        }
+    }
+
 }

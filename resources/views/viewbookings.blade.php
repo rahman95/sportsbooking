@@ -14,12 +14,14 @@
                 <th>Class Type</th>
                 <th>Booking Date</th>
                 <th>Booking Time</th>
+                <th>Manage</th>
                 </tr>
                 @foreach($classhistory as $chistory)
                 <tr>
                 <td>{{$chistory->classtype}}</td>
                 <td>{{$chistory->bookingdate}}</td>
                 <td>{{$chistory->bookingtime}}:00</td>
+                <td><a class="btn btn-small btn-success" href="{{ URL::to('book/class/show/' . $chistory->id) }}">More Details</a></td>
                 </tr>
                 @endforeach
                 </table>
@@ -31,12 +33,14 @@
                 <th>Facility Type</th>
                 <th>Booking Date</th>
                 <th>Booking Time</th>
+                <th>Manage</th>
                 </tr>
                 @foreach($facilityhistory as $fhistory)
                 <tr>
                 <td>{{$fhistory->facilitytype}}</td>
                 <td>{{$fhistory->bookingdate}}</td>
                 <td>{{$fhistory->bookingtime}}:00</td>
+                <td><a class="btn btn-small btn-success" href="{{ URL::to('book/class/show/' . $fhistory->id) }}">More Details</a></td>
                 </tr>
                 @endforeach
                 </table>

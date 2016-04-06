@@ -14,7 +14,7 @@
                     <div class="alert alert-danger text-center">{{ Session::get('error') }}</div>
                     @endif
 
-                    {{ Form::model($class, array('url' => 'home/edit', $class->id)) }}
+                    {{ Form::model($class, array('url' => 'book/class/edit', $class->id)) }}
                     {{ Form::label('class', 'Class Type') }}
                     {{ Form::select('class', array('fitness' => 'Fitness', 'strength' => 'Strength'), null, array('class' => 'form-control')) }}
 

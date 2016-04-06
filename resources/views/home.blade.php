@@ -61,10 +61,10 @@
                     <td>{{ $facility->bookingdate }}</td>
                     <td>{{ $facility->bookingtime }}:00</td>
                     <td>
-                        <a class="btn btn-small btn-success" href="{{ URL::to('book/class/show/' . $class->id) }}">Show</a>
+                        <a class="btn btn-small btn-success" href="{{ URL::to('book/facility/show/' . $facility->id) }}">Show</a>
                     </td>
                     <td>
-                        <a class="btn btn-small btn-info" href="{{ URL::to('book/class/edit/' . $class->id) }}">Edit</a>
+                        <a class="btn btn-small btn-info" href="{{ URL::to('book/facility/edit/' . $facility->id) }}">Edit</a>
                     </td>
                 </tr>
                 @endforeach
@@ -90,7 +90,7 @@
                 @if($facilityhistory->count() == 0)
                 <h3 class="text-center">You have not made any Bookings yet, you can do so by <a href="{{ URL::to('book') }}">clicking here</a></h3>
                 @else
-                <h4 class="text-center">You have made <b>{{$facilityhistory->count() + $classhistory->count()}}</b> Bookings in total since you became a member, thats <b>{{$facilityhistory->count()}}</b> Facility bookings and <b>{{$classhistory->count()}}</b> Classes.</h4>
+                <h4 class="text-center">You have made <b>{{$facilityhistory->count() + $classhistory->count()}}</b> Bookings in total since you became a member, thats <b>{{$facilityhistory->count()}}</b> Facility and <b>{{$classhistory->count()}}</b> Class bookings.</h4>
                 <div class="buttoncenter"><a class="btn btn-small btn-success" href="{{ URL::to('home/viewbookings/') }}">View History</a></div>
                 @endif
                 </div>

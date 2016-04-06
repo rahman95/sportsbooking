@@ -72,6 +72,14 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/book/class/show/{id}', 'ClassController@show');
 
     Route::get('/book/class/edit/{id}', 'ClassController@edit');
+
+    Route::post('/book/class/update/{id}', 'ClassController@update');
+
+    Route::get('/book/facility/show/{id}', 'FacilityController@show');
+
+    Route::get('/book/facility/edit/{id}', 'FacilityController@edit');
+
+    Route::post('/book/facility/update/{id}', 'FacilityController@update');
 });
 
 
