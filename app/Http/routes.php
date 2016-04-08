@@ -55,6 +55,10 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::get('/home/edit/{id}', 'HomeController@edit');
 
+    Route::get('/myaccount/{id}', 'HomeController@edit');
+
+    Route::get('/mybookings', 'HomeController@viewbookings');   
+
     Route::get('/home/editpass/{id}', 'HomeController@editpass');
 
     Route::post('home/edit', 'HomeController@update');

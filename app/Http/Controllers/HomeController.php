@@ -189,7 +189,35 @@ class HomeController extends Controller
 
     public function stats(){
 
-        return view('viewbookings');
+         $totalfacility = \App\Facilities::where('bookedby', Auth::user()->name)->get();
+         $totalclass = \App\Classes::where('bookedby', Auth::user()->name)->get();
+         $classfitness = \App\Classes::where('bookedby', Auth::user()->name)->where('classtype', "fitness")->get();
+         $classstrength = \App\Classes::where('bookedby', Auth::user()->name)->where('classtype', "strength")->get();
+         $facilitypitch1 = \App\Facilities::where('bookedby', Auth::user()->name)->where('facilitytype', "football1")->get();
+         $facilitypitch2 = \App\Facilities::where('bookedby', Auth::user()->name)->where('facilitytype', "football2")->get();
+         $facilitycourt1 = \App\Facilities::where('bookedby', Auth::user()->name)->where('facilitytype', "tennis1")->get();
+         $facilitycourt2 = \App\Facilities::where('bookedby', Auth::user()->name)->where('facilitytype', "tennis2")->get();
+         $facilityhall = \App\Facilities::where('bookedby', Auth::user()->name)->where('facilitytype', "sportshall")->get();
+
+
+
+
+         $class11 = \App\Classes::where('bookedby', Auth::user()->name)->where('bookingtime', "11")->get();
+         $class20 = \App\Classes::where('bookedby', Auth::user()->name)->where('bookingtime', "20")->get();
+
+
+        return view('stats')
+        ->with('totalfacility', $totalfacility)
+        ->with('totalclass', $totalclass)
+        ->with('classfitness', $classfitness)
+        ->with('classstrength', $classstrength)
+        ->with('facilitypitch1', $facilitypitch1)
+        ->with('facilitypitch2', $facilitypitch2)
+        ->with('facilitycourt1', $facilitycourt1)
+        ->with('facilitycourt2', $facilitycourt2)
+        ->with('facilityhall', $facilityhall)
+        ->with('class11', $class11)
+        ->with('class20', $class20);
 
     }
 }
