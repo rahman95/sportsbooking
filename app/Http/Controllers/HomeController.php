@@ -13,6 +13,7 @@ use Validator;
 use Session;
 use Input;
 use Hash;
+use Image;
 
 class HomeController extends Controller
 {
@@ -151,5 +152,44 @@ class HomeController extends Controller
         $classhistory = \App\Classes::where('bookedby', Auth::user()->name)->get();
 
         return view('viewbookings')->with('facilityhistory', $facilityhistory)->with('classhistory', $classhistory);
+    }
+
+        public function upload(){
+
+        if(Input::hasFile('file')){
+
+            $file = Input::file('file');
+            $fileArray = array('image' => $file);
+            $rules = array('image' => 'mimes:jpeg,jpg,png,gif|required|max:7000'); //Max 7MB Limit
+            $validator = Validator::make($fileArray, $rules);
+
+            if ($validator->fails()) {
+            Session::flash('error', 'Image could not be uploaded');
+            return redirect('book/class')
+                        ->withErrors($validator)
+                        ->withInput();
+            }else{
+                Image::make($file)->resize(500, 500)->save('uploads/' . Auth::user()->id . '.png');
+                $id  = Auth::id();
+                $user = User::findOrFail($id);
+                $user->pic = Auth::id();
+                
+                $user->save();
+
+                Session::flash('message', 'Profile Picture changed successfully');
+                    return Redirect::to('/home');
+            }
+        }
+        else{
+           Session::flash('error', 'Please select an image file!');
+                    return Redirect::to('/home/edit/' . Auth::id()); 
+        }
+
+    }
+
+    public function stats(){
+
+        return view('viewbookings');
+
     }
 }

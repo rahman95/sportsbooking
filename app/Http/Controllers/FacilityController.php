@@ -200,4 +200,14 @@ class FacilityController extends Controller
         }
     }
 
+    public function delete($id)
+    {
+        $facility = \App\Facilities::find($id);
+        $facility->delete();
+
+        // redirect
+        Session::flash('message', 'Successfully deleted Booking!');
+        return Redirect::to('/home');
+    }
+
 }

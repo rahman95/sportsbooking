@@ -73,13 +73,21 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::get('/book/class/edit/{id}', 'ClassController@edit');
 
+    Route::delete('/book/class/delete/{id}', 'ClassController@delete');
+
     Route::post('/book/class/update/{id}', 'ClassController@update');
 
     Route::get('/book/facility/show/{id}', 'FacilityController@show');
 
     Route::get('/book/facility/edit/{id}', 'FacilityController@edit');
 
+    Route::delete('/book/facility/delete/{id}', 'FacilityController@delete');
+
     Route::post('/book/facility/update/{id}', 'FacilityController@update');
+
+    Route::post('home/edit/upload', 'HomeController@upload');
+
+    Route::get('/home/statistics', 'HomeController@stats');
 });
 
 

@@ -150,11 +150,71 @@ class ClassController extends Controller
 
     public function update($id)
     {
+        $date = Input::get('bookingdate');
+        $bookingdate = date("Y-m-d", strtotime($date));
+        $datenormal = date("d-m-Y", strtotime($date));
+        $dt = Carbon::now();
+        $dttime = $dt->format('H:i');
+        $dtdate = $dt->format('d-m-Y');
 
+            $rules = array(
+            'class' => 'required',
+            'date' => 'required|date|after:yesterday',
+            'time' => 'required'
+        );
+
+        $validator = Validator::make(Input::all(), $rules);
+
+        if ($validator->fails()) {
+            Session::flash('error', 'There are error(s) on the Form!');
+            return redirect('book/class/edit' . $id)
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+        else{
+
+            if($dtdate == $datenormal && $dttime < Input::get('bookingtime')){
+
+                $class = \App\Classes::findOrFail($id);
+                $class->classtype   = Input::get('class');
+                $class->bookingdate = $bookingdate;
+                $class->bookingtime = Input::get('bookingtime');
+                $class->bookedby = Auth::user()->name;
+
+                $class->save();
+
+                Session::flash('message', 'Booked Successfully!');
+                return Redirect::to('book/class/show' . $id);
+            }
+            elseif($dtdate != $datenormal){
+
+                $class = \App\Classes::findOrFail($id);
+                $class->classtype   = Input::get('class');
+                $class->bookingdate = $bookingdate;
+                $class->bookingtime = Input::get('bookingtime');
+                $class->bookedby = Auth::user()->name;
+
+                $class->save();
+
+                Session::flash('message', 'Booked Successfully!');
+                return Redirect::to('book/class/show' . $id);
+            }
+            else{
+                Session::flash('error', 'Booking time cannot be in the Past!');
+                return Redirect::to('book/class/edit' . $id);
+            }
+
+        
+        }
     }
 
     public function delete($id)
     {
+        $class = \App\Classes::find($id);
+        $class->delete();
 
+        // redirect
+        Session::flash('message', 'Successfully deleted Booking!');
+        return Redirect::to('/home');
     }
 }
