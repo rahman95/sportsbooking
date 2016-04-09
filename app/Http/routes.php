@@ -75,11 +75,13 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::get('/book/class/show/{id}', 'ClassController@show');
 
+    Route::get('/book/class/pdf/{id}', 'ClassController@pdf');
+
     Route::get('/book/class/edit/{id}', 'ClassController@edit');
 
     Route::delete('/book/class/delete/{id}', 'ClassController@delete');
 
-    Route::post('/book/class/update/{id}', 'ClassController@update');
+    Route::put('/book/class/update/{id}', 'ClassController@update');
 
     Route::get('/book/facility/show/{id}', 'FacilityController@show');
 

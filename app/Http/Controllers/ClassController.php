@@ -12,6 +12,7 @@ use Auth;
 use DateTime;
 use DB;
 use Carbon\Carbon;
+use PDF;
 
 class ClassController extends Controller
 {
@@ -133,9 +134,11 @@ class ClassController extends Controller
     public function show($id)
     {
         $class = \App\Classes::find($id);
+        $dt = Carbon::now();
+        $today = $dt->format('Y-m-d');
 
         // show the view and pass the nerd to it
-        return view('showclass')->with('class', $class);
+        return view('showclass')->with('class', $class)->with('today', $today);
     }
 
     public function edit($id)
@@ -148,8 +151,9 @@ class ClassController extends Controller
 
     }
 
-    public function update($id)
+    public function update()
     {
+        $id = Auth::user()->id;
         $date = Input::get('bookingdate');
         $bookingdate = date("Y-m-d", strtotime($date));
         $datenormal = date("d-m-Y", strtotime($date));
@@ -159,15 +163,15 @@ class ClassController extends Controller
 
             $rules = array(
             'class' => 'required',
-            'date' => 'required|date|after:yesterday',
-            'time' => 'required'
+            'bookingdate' => 'required|date|after:yesterday',
+            'bookingtime' => 'required'
         );
 
         $validator = Validator::make(Input::all(), $rules);
 
         if ($validator->fails()) {
             Session::flash('error', 'There are error(s) on the Form!');
-            return redirect('book/class/edit' . $id)
+            return redirect('book/class/edit/' . $id)
                         ->withErrors($validator)
                         ->withInput();
         }
@@ -184,7 +188,7 @@ class ClassController extends Controller
                 $class->save();
 
                 Session::flash('message', 'Booked Successfully!');
-                return Redirect::to('book/class/show' . $id);
+                return Redirect::to('book/class/show/' . $id);
             }
             elseif($dtdate != $datenormal){
 
@@ -197,11 +201,11 @@ class ClassController extends Controller
                 $class->save();
 
                 Session::flash('message', 'Booked Successfully!');
-                return Redirect::to('book/class/show' . $id);
+                return Redirect::to('book/class/show/' . $id);
             }
             else{
                 Session::flash('error', 'Booking time cannot be in the Past!');
-                return Redirect::to('book/class/edit' . $id);
+                return Redirect::to('book/class/edit/' . $id);
             }
 
         
@@ -216,5 +220,14 @@ class ClassController extends Controller
         // redirect
         Session::flash('message', 'Successfully deleted Booking!');
         return Redirect::to('/home');
+    }
+
+    public function pdf($id)
+    {
+        $class = \App\Classes::find($id);
+        $data = array('class' => $class);
+
+        $pdf = PDF::loadView('pdfclass', $data);
+        return $pdf->stream('booking.pdf');
     }
 }
