@@ -9,10 +9,10 @@ use Input;
 use Session;
 use Redirect;
 use Auth;
-use DateTime;
 use DB;
 use Carbon\Carbon;
 use PDF;
+use App\Classes as Classes;
 
 class ClassController extends Controller
 {
@@ -34,35 +34,38 @@ class ClassController extends Controller
     public function index()
     {
 
+        $dt = Carbon::now();
+        $today = $dt->format('Y-m-d');
+
         $morningfitness = DB::table('class')
                      ->select('*')
-                     ->where('bookingdate', '=', new DateTime('today'))
+                     ->where('bookingdate', '=', $today)
                      ->where('classtype', '=', "fitness")
                      ->where('bookingtime', '=', "11")
                      ->count();
 
         $eveningfitness = DB::table('class')
                      ->select('*')
-                     ->where('bookingdate', '=', new DateTime('today'))
+                     ->where('bookingdate', '=', $today)
                      ->where('classtype', '=', "fitness")
                      ->where('bookingtime', '=', "20")
                      ->count();
 
         $morningstrength = DB::table('class')
                      ->select('*')
-                     ->where('bookingdate', '=', new DateTime('today'))
+                     ->where('bookingdate', '=', $today)
                      ->where('classtype', '=', "strength")
                      ->where('bookingtime', '=', "11")
                      ->count();
 
         $eveningstrength = DB::table('class')
                      ->select('*')
-                     ->where('bookingdate', '=', new DateTime('today'))
+                     ->where('bookingdate', '=', $today)
                      ->where('classtype', '=', "strength")
                      ->where('bookingtime', '=', "20")
                      ->count();
                      
-        $bookingclasses = \App\Classes::all();
+        $bookingclasses = Classes::all();
         return view('bookclass')
         ->with('morningfitness', $morningfitness)
         ->with('eveningfitness', $eveningfitness)
@@ -98,11 +101,11 @@ class ClassController extends Controller
 
             if($dtdate == $datenormal && $dttime < Input::get('time')){
 
-                $class = new \App\Classes;
+                $class = new Classes;
                 $class->classtype   = Input::get('class');
                 $class->bookingdate = $bookingdate;
                 $class->bookingtime = Input::get('time');
-                $class->bookedby = Auth::user()->name;
+                $class->bookedby = Auth::user()->id;
 
                 $class->save();
 
@@ -111,11 +114,11 @@ class ClassController extends Controller
             }
             elseif($dtdate != $datenormal){
 
-                $class = new \App\Classes;
+                $class = new Classes;
                 $class->classtype   = Input::get('class');
                 $class->bookingdate = $bookingdate;
                 $class->bookingtime = Input::get('time');
-                $class->bookedby = Auth::user()->name;
+                $class->bookedby = Auth::user()->id;
 
                 $class->save();
 
@@ -133,7 +136,7 @@ class ClassController extends Controller
         }
     public function show($id)
     {
-        $class = \App\Classes::find($id);
+        $class = Classes::find($id);
         $dt = Carbon::now();
         $today = $dt->format('Y-m-d');
 
@@ -144,7 +147,7 @@ class ClassController extends Controller
     public function edit($id)
     {
         
-        $class = \App\Classes::find($id);
+        $class = Classes::find($id);
 
         // show the view and pass the nerd to it
         return view('editclass')->with('class', $class);
@@ -179,11 +182,11 @@ class ClassController extends Controller
 
             if($dtdate == $datenormal && $dttime < Input::get('bookingtime')){
 
-                $class = \App\Classes::findOrFail($id);
+                $class = Classes::findOrFail($id);
                 $class->classtype   = Input::get('class');
                 $class->bookingdate = $bookingdate;
                 $class->bookingtime = Input::get('bookingtime');
-                $class->bookedby = Auth::user()->name;
+                $class->bookedby = Auth::user()->id;
 
                 $class->save();
 
@@ -192,11 +195,11 @@ class ClassController extends Controller
             }
             elseif($dtdate != $datenormal){
 
-                $class = \App\Classes::findOrFail($id);
+                $class = Classes::findOrFail($id);
                 $class->classtype   = Input::get('class');
                 $class->bookingdate = $bookingdate;
                 $class->bookingtime = Input::get('bookingtime');
-                $class->bookedby = Auth::user()->name;
+                $class->bookedby = Auth::user()->id;
 
                 $class->save();
 
@@ -214,7 +217,7 @@ class ClassController extends Controller
 
     public function delete($id)
     {
-        $class = \App\Classes::find($id);
+        $class = Classes::find($id);
         $class->delete();
 
         // redirect
@@ -224,7 +227,7 @@ class ClassController extends Controller
 
     public function pdf($id)
     {
-        $class = \App\Classes::find($id);
+        $class = Classes::find($id);
         $data = array('class' => $class);
 
         $pdf = PDF::loadView('pdfclass', $data);

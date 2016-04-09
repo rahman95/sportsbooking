@@ -85,6 +85,8 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::get('/book/facility/show/{id}', 'FacilityController@show');
 
+    Route::get('/book/facility/pdf/{id}', 'FacilityController@pdf');
+
     Route::get('/book/facility/edit/{id}', 'FacilityController@edit');
 
     Route::delete('/book/facility/delete/{id}', 'FacilityController@delete');

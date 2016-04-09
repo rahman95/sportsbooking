@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use Auth;
-use DateTime;
 use Carbon\Carbon;
 use App\User;
 use Redirect;
@@ -14,6 +13,8 @@ use Session;
 use Input;
 use Hash;
 use Image;
+use App\Classes as Classes;
+use App\Facilities as Facilities;
 
 class HomeController extends Controller
 {
@@ -37,23 +38,23 @@ class HomeController extends Controller
         $dt = Carbon::now();
         $dtdate = $dt->format('Y-m-d');
 
-        $classbookings = \App\Classes::where('bookingdate', '>=', $dtdate)->where('bookedby', '=', Auth::user()->name)->count();
-        $facilitybookings = \App\Facilities::where('bookingdate', '>=', $dtdate)->where('bookedby', '=', Auth::user()->name)->count();
-        $facilityhistory = \App\Facilities::where('bookedby', Auth::user()->name)->get();
-        $classhistory = \App\Classes::where('bookedby', Auth::user()->name)->get();
+        $classbookings = Classes::where('bookingdate', '>=', $dtdate)->where('bookedby', '=', Auth::user()->id)->count();
+        $facilitybookings = Facilities::where('bookingdate', '>=', $dtdate)->where('bookedby', '=', Auth::user()->id)->count();
+        $facilityhistory = Facilities::where('bookedby', Auth::user()->id)->get();
+        $classhistory = Classes::where('bookedby', Auth::user()->id)->get();
 
         if($classbookings == "0"){
             $myclass = "No Upcoming Bookings";
         }
         else{
-            $myclass = \App\Classes::where('bookingdate', '>=', $dtdate)->where('bookedby', '=', Auth::user()->name)->get();
+            $myclass = Classes::where('bookingdate', '>=', $dtdate)->where('bookedby', '=', Auth::user()->id)->get();
         }
 
         if($facilitybookings == "0"){
             $myfacility = "No Upcoming Bookings";
         }
         else{
-            $myfacility = \App\Facilities::where('bookingdate', '>=', $dtdate)->where('bookedby', '=', Auth::user()->name)->get();
+            $myfacility = Facilities::where('bookingdate', '>=', $dtdate)->where('bookedby', '=', Auth::user()->id)->get();
         }
         return view('home')
         ->with('myclass', $myclass)
@@ -65,7 +66,7 @@ class HomeController extends Controller
         public function edit($id)
     {
         $user = User::find($id);
-        if (Auth::user()->name == $user->name){
+        if (Auth::user()->id == $user->id){
 
         return view('editprofile')->with('user', $user);
 
@@ -78,7 +79,7 @@ class HomeController extends Controller
         public function editpass($id)
     {
         $user = User::find($id);
-        if (Auth::user()->name == $user->name){
+        if (Auth::user()->id == $user->id){
 
         return view('editpassword')->with('user', $user);
 
@@ -148,8 +149,8 @@ class HomeController extends Controller
          
          public function viewbookings()
     {
-        $facilityhistory = \App\Facilities::where('bookedby', Auth::user()->name)->get();
-        $classhistory = \App\Classes::where('bookedby', Auth::user()->name)->get();
+        $facilityhistory = Facilities::where('bookedby', Auth::user()->id)->get();
+        $classhistory = Classes::where('bookedby', Auth::user()->id)->get();
 
         return view('viewbookings')->with('facilityhistory', $facilityhistory)->with('classhistory', $classhistory);
     }
@@ -189,21 +190,21 @@ class HomeController extends Controller
 
     public function stats(){
 
-         $totalfacility = \App\Facilities::where('bookedby', Auth::user()->name)->get();
-         $totalclass = \App\Classes::where('bookedby', Auth::user()->name)->get();
-         $classfitness = \App\Classes::where('bookedby', Auth::user()->name)->where('classtype', "fitness")->get();
-         $classstrength = \App\Classes::where('bookedby', Auth::user()->name)->where('classtype', "strength")->get();
-         $facilitypitch1 = \App\Facilities::where('bookedby', Auth::user()->name)->where('facilitytype', "football1")->get();
-         $facilitypitch2 = \App\Facilities::where('bookedby', Auth::user()->name)->where('facilitytype', "football2")->get();
-         $facilitycourt1 = \App\Facilities::where('bookedby', Auth::user()->name)->where('facilitytype', "tennis1")->get();
-         $facilitycourt2 = \App\Facilities::where('bookedby', Auth::user()->name)->where('facilitytype', "tennis2")->get();
-         $facilityhall = \App\Facilities::where('bookedby', Auth::user()->name)->where('facilitytype', "sportshall")->get();
+         $totalfacility = Facilities::where('bookedby', Auth::user()->id)->get();
+         $totalclass = Classes::where('bookedby', Auth::user()->id)->get();
+         $classfitness = Classes::where('bookedby', Auth::user()->id)->where('classtype', "fitness")->get();
+         $classstrength = Classes::where('bookedby', Auth::user()->id)->where('classtype', "strength")->get();
+         $facilitypitch1 = Facilities::where('bookedby', Auth::user()->id)->where('facilitytype', "football1")->get();
+         $facilitypitch2 = Facilities::where('bookedby', Auth::user()->id)->where('facilitytype', "football2")->get();
+         $facilitycourt1 = Facilities::where('bookedby', Auth::user()->id)->where('facilitytype', "tennis1")->get();
+         $facilitycourt2 = Facilities::where('bookedby', Auth::user()->id)->where('facilitytype', "tennis2")->get();
+         $facilityhall = Facilities::where('bookedby', Auth::user()->id)->where('facilitytype', "sportshall")->get();
 
 
 
 
-         $class11 = \App\Classes::where('bookedby', Auth::user()->name)->where('bookingtime', "11")->get();
-         $class20 = \App\Classes::where('bookedby', Auth::user()->name)->where('bookingtime', "20")->get();
+         $class11 = Classes::where('bookedby', Auth::user()->id)->where('bookingtime', "11")->get();
+         $class20 = Classes::where('bookedby', Auth::user()->id)->where('bookingtime', "20")->get();
 
 
         return view('stats')

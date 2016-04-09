@@ -9,9 +9,10 @@ use Input;
 use Session;
 use Redirect;
 use Auth;
-use DateTime;
 use DB;
 use Carbon\Carbon;
+use PDF;
+use App\Facilities as Facilities;
 
 class FacilityController extends Controller
 {
@@ -33,22 +34,22 @@ class FacilityController extends Controller
     public function index()
     {
         $dt = Carbon::now();
-        $dtdate = $dt->format('Y-m-d');
+        $today = $dt->format('Y-m-d');
 
-        $pitch1 = \App\Facilities::where('facilitytype', "football1")
-                                 ->where('bookingdate', $dtdate)
+        $pitch1 = Facilities::where('facilitytype', "football1")
+                                 ->where('bookingdate', $today)
                                  ->get();
-        $pitch2 = \App\Facilities::where('facilitytype', "football2")
-                                 ->where('bookingdate', $dtdate)
+        $pitch2 = Facilities::where('facilitytype', "football2")
+                                 ->where('bookingdate', $today)
                                  ->get();
-        $court1 = \App\Facilities::where('facilitytype', "tennis1")
-                                 ->where('bookingdate', $dtdate)
+        $court1 = Facilities::where('facilitytype', "tennis1")
+                                 ->where('bookingdate', $today)
                                  ->get();
-        $court2 = \App\Facilities::where('facilitytype', "tennis2")
-                                 ->where('bookingdate', $dtdate)
+        $court2 = Facilities::where('facilitytype', "tennis2")
+                                 ->where('bookingdate', $today)
                                  ->get();
-        $hall   = \App\Facilities::where('facilitytype', "sportshall")
-                                 ->where('bookingdate', $dtdate)
+        $hall   = Facilities::where('facilitytype', "sportshall")
+                                 ->where('bookingdate', $today)
                                  ->get();
 
 
@@ -86,11 +87,11 @@ class FacilityController extends Controller
 
             if($dtdate == $datenormal && $dttime < Input::get('time')){
 
-                $facility = new \App\Facilities;
+                $facility = new Facilities;
                 $facility->facilitytype   = Input::get('facility');
                 $facility->bookingdate = $bookingdate;
                 $facility->bookingtime = Input::get('time');
-                $facility->bookedby = Auth::user()->name;
+                $facility->bookedby = Auth::user()->id;
 
                 $facility->save();
 
@@ -99,11 +100,11 @@ class FacilityController extends Controller
             }
             elseif($dtdate != $datenormal){
 
-                $facility = new \App\Facilities;
+                $facility = new Facilities;
                 $facility->facilitytype   = Input::get('facility');
                 $facility->bookingdate = $bookingdate;
                 $facility->bookingtime = Input::get('time');
-                $facility->bookedby = Auth::user()->name;
+                $facility->bookedby = Auth::user()->id;
 
                 $facility->save();
 
@@ -121,7 +122,7 @@ class FacilityController extends Controller
 
      public function show($id)
     {
-        $facility = \App\Facilities::find($id);
+        $facility = Facilities::find($id);
         $dt = Carbon::now();
         $today = $dt->format('Y-m-d');
 
@@ -132,7 +133,7 @@ class FacilityController extends Controller
     public function edit($id)
     {
         
-        $facility = \App\Facilities::find($id);
+        $facility = Facilities::find($id);
 
         // show the view and pass the nerd to it
         return view('editfacility')->with('facility', $facility);
@@ -164,7 +165,7 @@ class FacilityController extends Controller
         else{
             if($dtdate == $datenormal && $dttime < Input::get('bookingtime')){
 
-                if (\App\Facilities::where('facilitytype', '=', Input::get('facilitytype'))
+                if (Facilities::where('facilitytype', '=', Input::get('facilitytype'))
                 ->where('bookingdate', '=', $bookingdate)
                 ->where('bookingtime', '=', Input::get('bookingtime'))
                 ->exists()){
@@ -175,21 +176,15 @@ class FacilityController extends Controller
                }
                 else{
 
-                    $facility = \App\Facilities::findOrFail($id);
+                    $facility = Facilities::findOrFail($id);
                     $facility->facilitytype   = Input::get('facilitytype');
                     $facility->bookingdate = $bookingdate;
                     $facility->bookingtime = Input::get('bookingtime');
-                    $facility->bookedby = Auth::user()->name;
+                    $facility->bookedby = Auth::user()->id;
                     $facility->save();
 
                     Session::flash('message', 'Booking Successfully Updated');
                     return Redirect::to('book/facility/show/' . $id);
-
-                    //$facility = \App\Facilities::find($id);
-
-                    // show the view and pass the nerd to it
-                    //return view('showfacility')->with('facility', $facility);
-
                }
             }
             else{
@@ -203,12 +198,21 @@ class FacilityController extends Controller
 
     public function delete($id)
     {
-        $facility = \App\Facilities::find($id);
+        $facility = Facilities::find($id);
         $facility->delete();
 
         // redirect
         Session::flash('message', 'Successfully deleted Booking!');
         return Redirect::to('/home');
+    }
+
+    public function pdf($id)
+    {
+        $facility = Facilities::find($id);
+        $data = array('facility' => $facility);
+
+        $pdf = PDF::loadView('pdffacility', $data);
+        return $pdf->stream('booking.pdf');
     }
 
 }
