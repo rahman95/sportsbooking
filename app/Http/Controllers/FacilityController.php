@@ -83,38 +83,39 @@ class FacilityController extends Controller
                         ->withInput();
         }
         else{
+
             if($dtdate == $datenormal && $dttime < Input::get('time')){
 
-                if (\App\Facilities::where('facilitytype', '=', Input::get('facility'))
-                ->where('bookingdate', '=', $bookingdate)
-                ->where('bookingtime', '=', Input::get('time'))
-                ->exists()){
+                $facility = new \App\Facilities;
+                $facility->facilitytype   = Input::get('facility');
+                $facility->bookingdate = $bookingdate;
+                $facility->bookingtime = Input::get('time');
+                $facility->bookedby = Auth::user()->name;
 
-                Session::flash('error', 'Booking already exists, please choose alternative time!');
+                $facility->save();
+
+                Session::flash('message', 'Booked Successfully!');
                 return Redirect::to('book/facility');
+            }
+            elseif($dtdate != $datenormal){
 
-               }
-                else{
+                $facility = new \App\Facilities;
+                $facility->facilitytype   = Input::get('facility');
+                $facility->bookingdate = $bookingdate;
+                $facility->bookingtime = Input::get('time');
+                $facility->bookedby = Auth::user()->name;
 
-                    $facility = new \App\Facilities;
-                    $facility->facilitytype   = Input::get('facility');
-                    $facility->bookingdate = $bookingdate;
-                    $facility->bookingtime = Input::get('time');
-                    $facility->bookedby = Auth::user()->name;
+                $facility->save();
 
-                    $facility->save();
-
-                    Session::flash('message', 'Booked Successfully!');
-                    return Redirect::to('book/facility');
-
-               }
+                Session::flash('message', 'Booked Successfully!');
+                return Redirect::to('book/facility');
             }
             else{
                 Session::flash('error', 'Booking time cannot be in the Past!');
                 return Redirect::to('book/facility');
             }
 
-           
+        
         }
     }
 
