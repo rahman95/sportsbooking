@@ -147,6 +147,75 @@ class AdminController extends Controller
 
     public function graphs()
     {
-        echo "Graphs Route";
+        $totalfacility = Facilities::all();
+        $totalclass = Classes::all();
+        $facilitypitch1 = Facilities::where('facilitytype', "football1")->get();
+        $facilitypitch2 = Facilities::where('facilitytype', "football2")->get();
+        $facilitycourt1 = Facilities::where('facilitytype', "tennis1")->get();
+        $facilitycourt2 = Facilities::where('facilitytype', "tennis2")->get();
+        $facilityhall = Facilities::where('facilitytype', "sportshall")->get();
+        $classfitness = Classes::where('classtype', "fitness")->get();
+        $classstrength = Classes::where('classtype', "strength")->get();
+
+
+        $classW1 = Classes::whereBetween('bookingdate',array('2016-03-15','2016-03-22'))
+                           ->count();
+
+        $classW2 = Classes::whereBetween('bookingdate',array('2016-03-22','2016-03-29'))
+                           ->count();
+
+        $classW3 = Classes::whereBetween('bookingdate',array('2016-03-29','2016-04-05'))
+                           ->count();
+
+        $classW4 = Classes::whereBetween('bookingdate',array('2016-04-05','2016-04-12'))
+                           ->count();
+
+        $classW5 = Classes::whereBetween('bookingdate',array('2016-04-12','2016-04-19'))
+                           ->count();
+
+        $facilityW1 = Facilities::whereBetween('bookingdate',array('2016-03-15','2016-03-22'))
+                           ->count();
+
+        $facilityW2 = Facilities::whereBetween('bookingdate',array('2016-03-22','2016-03-29'))
+                           ->count();
+
+        $facilityW3 = Facilities::whereBetween('bookingdate',array('2016-03-29','2016-04-05'))
+                           ->count();
+
+        $facilityW4 = Facilities::whereBetween('bookingdate',array('2016-04-05','2016-04-12'))
+                           ->count();
+
+        $facilityW5 = Facilities::whereBetween('bookingdate',array('2016-04-12','2016-04-19'))
+                           ->count();
+        //$agesql = DB::select('SELECT AVG(TIMESTAMPDIFF(YEAR, `dob`, NOW())) AS `Age` FROM `users`');
+
+        $pitch1pre = round($facilitypitch1->count() / $totalfacility->count() * 100);
+        $pitch2pre = round($facilitypitch2->count() / $totalfacility->count() * 100);
+        $court1pre = round($facilitycourt1->count() / $totalfacility->count() * 100);
+        $court2pre = round($facilitycourt2->count() / $totalfacility->count() * 100);
+        $hallpre   = round($facilityhall->count() / $totalfacility->count() * 100);
+
+        $fitnesspre = round($classfitness->count() / $totalclass->count() * 100);
+        $strengthpre = round($classstrength->count() / $totalclass->count() * 100);
+
+        return view('graph')
+        ->with('pitch1pre', $pitch1pre)
+        ->with('pitch2pre', $pitch2pre)
+        ->with('court1pre', $court1pre)
+        ->with('court2pre', $court2pre)
+        ->with('hallpre', $hallpre)
+        ->with('fitnesspre', $fitnesspre)
+        ->with('strengthpre', $strengthpre)
+        ->with('classW1', $classW1)
+        ->with('facilityW1', $facilityW1)
+        ->with('classW2', $classW2)
+        ->with('facilityW2', $facilityW2)
+        ->with('classW3', $classW3)
+        ->with('facilityW3', $facilityW3)
+        ->with('classW4', $classW4)
+        ->with('facilityW4', $facilityW4)
+        ->with('classW5', $classW5)
+        ->with('facilityW5', $facilityW5);
+;
     }
 }
