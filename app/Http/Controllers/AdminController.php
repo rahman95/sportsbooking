@@ -97,9 +97,24 @@ class AdminController extends Controller
          $femalemembers = User::where('gender', "female")->get();
 
          $agesql = DB::select('SELECT AVG(TIMESTAMPDIFF(YEAR, `dob`, NOW())) AS `Age` FROM `users`');
+         $classsql = DB::select('SELECT `bookedby` FROM `class` GROUP BY `bookedby` ORDER BY COUNT(*) DESC LIMIT 1');
+         $facilitysql = DB::select('SELECT `bookedby` FROM `facility` GROUP BY `bookedby` ORDER BY COUNT(*) DESC LIMIT 1');
 
          $output = array_map(function ($object) { return $object->Age; }, $agesql);
          $averageage = implode(', ', $output);
+
+         $activeclassid = $classsql[0]->bookedby;
+         $activefacilityid = $facilitysql[0]->bookedby;
+
+         $activeclassuser = User::where('id', $activeclassid)->get();
+         $activefacilityuser = User::where('id', $activefacilityid)->get();
+
+         $classuser = $activeclassuser[0]->name;
+         $facilityuser = $activefacilityuser[0]->name;
+
+
+         $activeclassno = Classes::where('bookedby', $activeclassid)->get();
+         $activefacilityno = Facilities::where('bookedby', $activefacilityid)->get();
 
         return view('analytics')
         ->with('totalfacility', $totalfacility)
@@ -116,7 +131,13 @@ class AdminController extends Controller
         ->with('class20', $class20)
         ->with('malemembers', $malemembers)
         ->with('femalemembers', $femalemembers)
-        ->with('averageage', $averageage);
+        ->with('averageage', $averageage)
+        ->with('classuser', $classuser)
+        ->with('facilityuser', $facilityuser)
+        ->with('activeclassno', $activeclassno)
+        ->with('activefacilityno', $activefacilityno);
+
+         
     }
 
     public function reporting()
