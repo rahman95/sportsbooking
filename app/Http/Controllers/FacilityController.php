@@ -121,13 +121,23 @@ class FacilityController extends Controller
     }
 
      public function show($id)
-    {
+
+     {
         $facility = Facilities::find($id);
         $dt = Carbon::now();
         $today = $dt->format('Y-m-d');
-
-        // show the view and pass the nerd to it
-        return view('showfacility')->with('facility', $facility)->with('today', $today);
+       
+        if(Auth::user()->admin == 1){
+            // Admin can see all Bookings
+            return view('showfacility')->with('facility', $facility)->with('today', $today);
+        }
+        elseif (Auth::user()->id == $facility->bookedby){
+            // Only Person who booked can see booking
+            return view('showfacility')->with('facility', $facility)->with('today', $today);
+        }
+        else{
+            return Redirect::to('/home');
+        }
     }
 
     public function edit($id)
@@ -135,9 +145,17 @@ class FacilityController extends Controller
         
         $facility = Facilities::find($id);
 
-        // show the view and pass the nerd to it
-        return view('editfacility')->with('facility', $facility);
-
+        if(Auth::user()->admin == 1){
+            // Admin can see all Bookings
+            return view('editfacility')->with('facility', $facility);
+        }
+        elseif (Auth::user()->id == $facility->bookedby){
+            // Only Person who booked can see booking
+            return view('editfacility')->with('facility', $facility);
+        }
+        else{
+            return Redirect::to('/home');
+        }
     }
 
     public function update($id)
@@ -163,43 +181,56 @@ class FacilityController extends Controller
                         ->withInput();
         }
         else{
-            if($dtdate == $datenormal && $dttime < Input::get('bookingtime')){
-
-                if (Facilities::where('facilitytype', '=', Input::get('facilitytype'))
-                ->where('bookingdate', '=', $bookingdate)
-                ->where('bookingtime', '=', Input::get('bookingtime'))
-                ->exists()){
-
-                Session::flash('error', 'Booking time already taken');
-                return Redirect::to('book/facility/edit/' . $id);
-
-               }
-                else{
-
-                    $facility = Facilities::findOrFail($id);
-                    $facility->facilitytype   = Input::get('facilitytype');
-                    $facility->bookingdate = $bookingdate;
-                    $facility->bookingtime = Input::get('bookingtime');
-                    $facility->bookedby = Auth::user()->id;
-                    $facility->save();
-
-                    Session::flash('message', 'Booking Successfully Updated');
-                    return Redirect::to('book/facility/show/' . $id);
-               }
-            }
+            //Check if new booking exist
+            if (Facilities::where('facilitytype', '=', Input::get('facilitytype'))
+                            ->where('bookingdate', '=', Input::get('bookingdate'))
+                            ->where('bookingtime', '=', Input::get('bookingtime'))
+                            ->exists()){
+                                //Booking already exsits.
+                                Session::flash('error', 'Booking already exists, choose a different time');
+                                return Redirect::to('book/facility/edit/' . $id);
+                            }
             else{
+                //check if booking in past
+
+                if($dtdate == $datenormal && $dttime < Input::get('bookingtime')){
+
+                $facility = Facilities::findOrFail($id);
+                $facility->facilitytype   = Input::get('facilitytype');
+                $facility->bookingdate = $bookingdate;
+                $facility->bookingtime = Input::get('bookingtime');
+                $facility->bookedby = $facility->bookedby;
+
+                $facility->save();
+
+                Session::flash('message', 'Updated Successfully!');
+                return Redirect::to('book/facility/show/' . $facility->id);
+                }
+                elseif($dtdate != $datenormal){
+
+                $facility = Facilities::findOrFail($id);
+                $facility->facilitytype   = Input::get('facilitytype');
+                $facility->bookingdate = $bookingdate;
+                $facility->bookingtime = Input::get('bookingtime');
+                $facility->bookedby = $facility->bookedby;
+
+                $facility->save();
+
+                Session::flash('message', 'Updated Successfully!');
+                return Redirect::to('book/facility/show/' . $facility->id);
+                }
+                else{
                 Session::flash('error', 'Booking time cannot be in the Past!');
                 return Redirect::to('book/facility/edit/' . $id);
             }
 
-           
+            }
         }
     }
 
     public function delete($id)
     {
-        $facility = Facilities::find($id);
-        $facility->delete();
+        Facilities::destroy($id);
 
         // redirect
         Session::flash('message', 'Successfully deleted Booking!');

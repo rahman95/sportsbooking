@@ -37,30 +37,22 @@ class ClassController extends Controller
         $dt = Carbon::now();
         $today = $dt->format('Y-m-d');
 
-        $morningfitness = DB::table('class')
-                     ->select('*')
-                     ->where('bookingdate', '=', $today)
+        $morningfitness = Classes::where('bookingdate', '=', $today)
                      ->where('classtype', '=', "fitness")
                      ->where('bookingtime', '=', "11")
                      ->count();
 
-        $eveningfitness = DB::table('class')
-                     ->select('*')
-                     ->where('bookingdate', '=', $today)
+        $eveningfitness = Classes::where('bookingdate', '=', $today)
                      ->where('classtype', '=', "fitness")
                      ->where('bookingtime', '=', "20")
                      ->count();
 
-        $morningstrength = DB::table('class')
-                     ->select('*')
-                     ->where('bookingdate', '=', $today)
+        $morningstrength = Classes::where('bookingdate', '=', $today)
                      ->where('classtype', '=', "strength")
                      ->where('bookingtime', '=', "11")
                      ->count();
 
-        $eveningstrength = DB::table('class')
-                     ->select('*')
-                     ->where('bookingdate', '=', $today)
+        $eveningstrength = Classes::where('bookingdate', '=', $today)
                      ->where('classtype', '=', "strength")
                      ->where('bookingtime', '=', "20")
                      ->count();
@@ -83,7 +75,7 @@ class ClassController extends Controller
         $bookingdate = date("Y-m-d", strtotime($date));
 
 
-         $rules = array(
+        $rules = array(
             'class' => 'required',
             'date' => 'required|date|after:yesterday',
             'time' => 'required'
@@ -140,8 +132,17 @@ class ClassController extends Controller
         $dt = Carbon::now();
         $today = $dt->format('Y-m-d');
 
-        // show the view and pass the nerd to it
-        return view('showclass')->with('class', $class)->with('today', $today);
+        if(Auth::user()->admin == 1){
+            // Admin can see all Bookings
+            return view('showclass')->with('class', $class)->with('today', $today);
+        }
+        elseif (Auth::user()->id == $class->bookedby){
+            // Only Person who booked can see booking
+            return view('showclass')->with('class', $class)->with('today', $today);
+        }
+        else{
+            return Redirect::to('/home');
+        }
     }
 
     public function edit($id)
@@ -149,14 +150,21 @@ class ClassController extends Controller
         
         $class = Classes::find($id);
 
-        // show the view and pass the nerd to it
-        return view('editclass')->with('class', $class);
-
+        if(Auth::user()->admin == 1){
+            // Admin can edit all Bookings
+            return view('editclass')->with('class', $class);
+        }
+        elseif (Auth::user()->id == $class->bookedby){
+            // Only Person who booked can edit booking
+            return view('editclass')->with('class', $class);
+        }
+        else{
+            return Redirect::to('/home');
+        }
     }
 
-    public function update()
+    public function update($id)
     {
-        $id = Auth::user()->id;
         $date = Input::get('bookingdate');
         $bookingdate = date("Y-m-d", strtotime($date));
         $datenormal = date("d-m-Y", strtotime($date));
@@ -165,7 +173,7 @@ class ClassController extends Controller
         $dtdate = $dt->format('d-m-Y');
 
             $rules = array(
-            'class' => 'required',
+            'classtype' => 'required',
             'bookingdate' => 'required|date|after:yesterday',
             'bookingtime' => 'required'
         );
@@ -183,28 +191,28 @@ class ClassController extends Controller
             if($dtdate == $datenormal && $dttime < Input::get('bookingtime')){
 
                 $class = Classes::findOrFail($id);
-                $class->classtype   = Input::get('class');
+                $class->classtype   = Input::get('classtype');
                 $class->bookingdate = $bookingdate;
                 $class->bookingtime = Input::get('bookingtime');
-                $class->bookedby = Auth::user()->id;
+                $class->bookedby = $class->bookedby;
 
                 $class->save();
 
-                Session::flash('message', 'Booked Successfully!');
-                return Redirect::to('book/class/show/' . $id);
+                Session::flash('message', 'Updated Successfully!');
+                return Redirect::to('book/class/show/' . $class->id);
             }
             elseif($dtdate != $datenormal){
 
                 $class = Classes::findOrFail($id);
-                $class->classtype   = Input::get('class');
+                $class->classtype   = Input::get('classtype');
                 $class->bookingdate = $bookingdate;
                 $class->bookingtime = Input::get('bookingtime');
-                $class->bookedby = Auth::user()->id;
+                $class->bookedby = $class->bookedby;
 
                 $class->save();
 
-                Session::flash('message', 'Booked Successfully!');
-                return Redirect::to('book/class/show/' . $id);
+                Session::flash('message', 'Updated Successfully!');
+                return Redirect::to('book/class/show/' . $class->id);
             }
             else{
                 Session::flash('error', 'Booking time cannot be in the Past!');
@@ -216,11 +224,11 @@ class ClassController extends Controller
     }
 
     public function delete($id)
-    {
-        $class = Classes::find($id);
-        $class->delete();
+    {   
 
-        // redirect
+        Classes::destroy($id);
+
+        //redirect
         Session::flash('message', 'Successfully deleted Booking!');
         return Redirect::to('/home');
     }
