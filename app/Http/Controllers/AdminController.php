@@ -63,6 +63,12 @@ class AdminController extends Controller
         $id = Input::get('user');
         $rank = Input::get('rank');
 
+        if ($id == 1){
+            Session::flash('error', 'Admin account cannot be changed!');
+            return Redirect::to('home/admin/new');
+        }
+        else{
+
         $user = User::findOrFail($id);
         $user->admin   = Input::get('rank');
 
@@ -70,6 +76,7 @@ class AdminController extends Controller
 
         Session::flash('message', 'User Updated!');
         return Redirect::to('home/admin/new');
+    }
     }
 
     public function analytics()
@@ -141,8 +148,52 @@ class AdminController extends Controller
     }
 
     public function reporting()
-    {
-        echo "Reporting Route";
+    {   
+        $weekstart  = date("Y-m-d", strtotime('this week'));
+        $monthstart  = date("Y-m-d", strtotime('first day of this month'));
+        $dt = Carbon::now();
+        $finish = $dt->format('Y-m-d');
+
+
+        $totalfacility = Facilities::all();
+        $totalclass = Classes::all();
+        $totalmembers = User::all();
+
+        $classthisweek = Classes::whereBetween('bookingdate',array($weekstart, $finish))
+                           ->count();
+
+        $classthismonth = Classes::whereBetween('bookingdate',array($monthstart, $finish))
+                           ->count();
+
+        $facilitythisweek = Facilities::whereBetween('bookingdate',array($weekstart, $finish))
+                           ->count();
+
+        $facilitythismonth = Facilities::whereBetween('bookingdate',array($monthstart, $finish))
+                           ->count();
+
+        $class11 = Classes::where('bookingtime', "11")->count();
+        $class20 = Classes::where('bookingtime', "20")->count();
+
+        $classfitness = Classes::where('classtype', "fitness")->count();
+        $classstrength = Classes::where('classtype', "strength")->count();
+
+        $malemembers = User::where('gender', "male")->get();
+        $femalemembers = User::where('gender', "female")->get();                      
+
+        return view('reporting')
+        ->with('totalfacility', $totalfacility)
+        ->with('totalclass', $totalclass)
+        ->with('totalmembers', $totalmembers)
+        ->with('classthisweek', $classthisweek)
+        ->with('classthismonth', $classthismonth)
+        ->with('facilitythisweek', $facilitythisweek)
+        ->with('facilitythismonth', $facilitythismonth)
+        ->with('class11', $class11)
+        ->with('class20', $class20)
+        ->with('classfitness', $classfitness)
+        ->with('classstrength', $classstrength)
+        ->with('malemembers', $malemembers)
+        ->with('femalemembers', $femalemembers);
     }
 
     public function graphs()
