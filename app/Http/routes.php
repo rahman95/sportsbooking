@@ -97,6 +97,8 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::get('/home/statistics', 'HomeController@stats');
 
+    Route::group(['middleware' => 'admin'], function () {
+
     Route::get('/home/admin/edit', 'AdminController@edit');
 
     Route::get('/home/admin/delete', 'AdminController@delete');
@@ -110,6 +112,8 @@ Route::group(['middleware' => 'web'], function () {
     Route::get('/home/admin/reporting', 'AdminController@reporting');
 
     Route::get('/home/admin/graphs', 'AdminController@graphs');
+
+    });
 
     Route::get('/error404', 'HomeController@error404');
 
