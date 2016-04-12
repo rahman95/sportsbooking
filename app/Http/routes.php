@@ -79,9 +79,9 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::get('/book/class/edit/{id}', 'ClassController@edit');
 
-    Route::delete('/book/class/delete/{id}', 'ClassController@delete');
+    Route::DELETE('/book/class/delete/{id}', 'ClassController@delete');
 
-    Route::put('/book/class/update/{id}', 'ClassController@update');
+    Route::post('/book/class/update/{id}', 'ClassController@update');
 
     Route::get('/book/facility/show/{id}', 'FacilityController@show');
 
@@ -89,13 +89,34 @@ Route::group(['middleware' => 'web'], function () {
 
     Route::get('/book/facility/edit/{id}', 'FacilityController@edit');
 
-    Route::delete('/book/facility/delete/{id}', 'FacilityController@delete');
+    Route::DELETE('/book/facility/delete/{id}', 'FacilityController@delete');
 
     Route::post('/book/facility/update/{id}', 'FacilityController@update');
 
     Route::post('home/edit/upload', 'HomeController@upload');
 
     Route::get('/home/statistics', 'HomeController@stats');
+
+    Route::group(['middleware' => 'admin'], function () {
+
+    Route::get('/home/admin/edit', 'AdminController@edit');
+
+    Route::get('/home/admin/delete', 'AdminController@delete');
+
+    Route::get('/home/admin/new', 'AdminController@new');
+
+    Route::post('/home/admin/new', 'AdminController@store');
+
+    Route::get('/home/admin/analytics', 'AdminController@analytics');
+
+    Route::get('/home/admin/reporting', 'AdminController@reporting');
+
+    Route::get('/home/admin/graphs', 'AdminController@graphs');
+
+    });
+
+    Route::get('/error404', 'HomeController@error404');
+
 });
 
 
